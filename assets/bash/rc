@@ -1,0 +1,39 @@
+if [ -f /etc/bashrc ]; then
+    source /etc/bashrc
+fi
+
+HISTCONTROL=ignoreboth
+HISTSIZE=999999
+HISTFILESIZE=999999
+HISTTIMEFORMAT="%Y-%m-%d %T  "
+
+shopt -s checkwinsize
+shopt -s histappend
+
+__nidus_load_rc() {
+    local IFS=$' \t\n'
+    local rc_file
+    local rc_dir="$(builtin cd "$(dirname "$BASH_SOURCE[0]")"; builtin pwd)"
+
+    for rc_file in "$rc_dir"/rc.d/*.sh; do
+        source "$rc_file"
+    done
+}
+__nidus_load_rc
+unset -f __nidus_load_rc
+
+if nidus_has tmux; then
+    if [ "$NIDUS_FORCE_TMUX" = yes ] && [ -z "$TMUX" ]; then
+        exec tmux new -As main
+    elif [ "$NIDUS_FORCE_TMUX" = no ]; then
+        :
+    elif [ "$NIDUS_AUTO_ATTACH_TMUX" = yes ] && [ "$NIDUS_TMUX_ATTACHED" != yes ] && [ -n "$SSH_CONNECTION" ]; then
+        exec tmux new -As main
+    fi
+fi
+
+PROMPT_COMMAND=__nidus_do_after_command
+trap __nidus_do_before_command DEBUG
+
+# vim: set ft=sh:
+
