@@ -1,0 +1,55 @@
+unbind C-b
+set -g prefix C-j
+
+unbind %
+bind - split-window -v
+unbind '"'
+bind | split-window -h
+
+unbind q
+bind Space display-panes
+
+bind C-j send-prefix
+bind C-p select-pane -U
+bind C-n select-pane -D
+bind C-b select-pane -L
+bind C-f select-pane -R
+
+set -g default-terminal 'screen-256color'
+
+set -g display-panes-active-colour '#00ff00'
+set -g display-panes-colour '#ff8080'
+set -g display-panes-time 5000
+
+set -g mouse on
+
+set -g mode-keys vi
+set -g clock-mode-style 12
+set -g clock-mode-colour '#c0c0c0'
+
+set -g pane-border-fg '#808080'
+set -g pane-active-border-fg '#ffffff'
+
+set -g status-justify left
+set -g status-fg '#ffffff'
+set -g status-bg '#404040'
+set -g status-left-length 36
+set -g status-right-length 36
+set -g status-left '#[bg=#208040] #(tmux-aux --tiny-host-name) #[bg=#4060e0] #S #{?session_many_attached,#[bg=#a020c0] #{client_tty} ,}'
+set -g status-right '#[fg=#ffffff,bg=#a020c0] #(tmux-aux --loadavg-1min)/#(tmux-aux --cpu-logical-cores) #[bg=#4060e0] %a %m/%d/%Y #[bg=#208040] %H#[blink]:#[noblink]%M '
+set -g status-interval 5
+
+set -g window-status-current-format '#{?client_prefix,#[blink]#[bg=#a06000]#[fg=#ffffff],#[bg=#e0e0e0]#[fg=#000000]} #[underscore][#I:#{=8:window_name}]#F#[nounderscore] '
+set -g window-status-format '#[fg=#000000,bg=#a0a0a0] [#I:#{=8:window_name}]#F '
+set -g window-status-separator ''
+
+set -g history-limit 4096
+set -g allow-rename off
+
+set -g renumber-windows on
+setw -g aggressive-resize on
+
+
+source ~/.nidus_site_config/tmux/custom.conf
+
+# vim: ft=tmux:
