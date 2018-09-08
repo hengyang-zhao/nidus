@@ -51,7 +51,7 @@ function prepare_site_dir {
         return 1
     fi
 
-    if ! ln -sfT "$NIDUS_DIR" "$link_name"; then
+    if ! (builtin cd "$SITE_DIR" && ln -sf "$NIDUS_DIR" "$(basename "$link_name")"); then
         put fatal "Unable to setup nidus symbolic link."
         return 1
     fi
