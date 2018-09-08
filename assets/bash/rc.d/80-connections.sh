@@ -1,4 +1,4 @@
-nidus_has screen && alias c=__connect_screen
+__nidus_has screen && alias c=__connect_screen
 function __connect_screen {
     if [ -n "$STY" ]; then
         echo '*** Nested screen is forbidden here ***'
@@ -30,7 +30,7 @@ function __connect_screen {
     esac
 }
 
-nidus_has tmux && alias t=__connect_tmux
+__nidus_has tmux && alias t=__connect_tmux
 function __connect_tmux
 {
     case "_$1" in

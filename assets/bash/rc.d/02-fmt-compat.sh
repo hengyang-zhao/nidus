@@ -1,4 +1,4 @@
-function nidus_fmt {
+function __nidus_fmt {
     local fmt_ctrl_seq i zero_width_wrapper
     for i; do
         case "$i" in
@@ -91,7 +91,7 @@ function nidus_fmt {
     return 0
 }
 
-nidus_reset_fmt()
+__nidus_reset_fmt()
 {
     local resetfmt_ctrl_seq=$'\033[0m'
 

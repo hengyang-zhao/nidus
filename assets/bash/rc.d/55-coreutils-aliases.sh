@@ -1,5 +1,5 @@
 # enable color support of ls and also add handy aliases
-if nidus_has dircolors; then
+if __nidus_has dircolors; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
@@ -31,5 +31,5 @@ fi
 alias rm='rm -vi'
 alias cp='cp -vi'
 alias mv='mv -vi'
-nidus_has vim && alias vi='vim'
+__nidus_has vim && alias vi='vim'
 

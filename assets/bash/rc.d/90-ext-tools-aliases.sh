@@ -1,4 +1,4 @@
-nidus_has dict && alias d=__define
+__nidus_has dict && alias d=__define
 __define() {
     if [ 0 -eq $# ]; then
         echo "usage: define <word>" >&2
@@ -12,7 +12,7 @@ __define() {
         less -r
 }
 
-nidus_has bc && alias b=__bc_calc
+__nidus_has bc && alias b=__bc_calc
 __bc_calc()
 {
     if [ $# -eq 0 ]; then
@@ -22,7 +22,7 @@ __bc_calc()
     fi
 }
 
-nidus_has vboxmanage && alias lsvm='__query_vm'
+__nidus_has vboxmanage && alias lsvm='__query_vm'
 __query_vm()
 {
     if ! [ $1 ]; then

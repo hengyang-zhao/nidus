@@ -22,7 +22,7 @@ __nidus_load_rc() {
 __nidus_load_rc
 unset -f __nidus_load_rc
 
-if nidus_has tmux; then
+if __nidus_has tmux; then
     if [ "$NIDUS_FORCE_TMUX" = yes ] && [ -z "$TMUX" ]; then
         exec tmux new -As main
     elif [ "$NIDUS_FORCE_TMUX" = no ]; then

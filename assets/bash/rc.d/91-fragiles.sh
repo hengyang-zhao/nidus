@@ -15,9 +15,9 @@ __nidus_infinite_bash()
     done
     return 0
 }
-alias nidus_trap=__nidus_infinite_bash
+alias __nidus_trap=__nidus_infinite_bash
 
-nidus_has hub && alias git=hub
+__nidus_has hub && alias git=hub
 
 function __petar_marinov_cd_func {
 
@@ -86,4 +86,4 @@ __nidus_verbose_cd() {
 __nidus_adjust_clock() {
     sudo ntpdate "time.nist.gov"
 }
-nidus_has ntpdate && alias nidus_adjust_clock=__nidus_adjust_clock
+__nidus_has ntpdate && alias __nidus_adjust_clock=__nidus_adjust_clock
