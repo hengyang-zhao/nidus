@@ -1,0 +1,13 @@
+__nidus_load_profile() {
+    local IFS=$' \t\n'
+    local profile
+    local assets_dir="$(builtin cd "$(dirname "$BASH_SOURCE[0]")"; builtin pwd)"
+
+    for profile in "$assets_dir"/profile.d/*.sh; do
+        source "$profile"
+    done
+}
+__nidus_load_profile
+unset -f __nidus_load_profile
+
+# vim: set ft=sh:

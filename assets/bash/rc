@@ -13,9 +13,9 @@ shopt -s histappend
 __nidus_load_rc() {
     local IFS=$' \t\n'
     local rc_file
-    local rc_dir="$(builtin cd "$(dirname "$BASH_SOURCE[0]")"; builtin pwd)"
+    local assets_dir="$(builtin cd "$(dirname "$BASH_SOURCE[0]")"; builtin pwd)"
 
-    for rc_file in "$rc_dir"/rc.d/*.sh; do
+    for rc_file in "$assets_dir"/rc.d/*.sh; do
         source "$rc_file"
     done
 }

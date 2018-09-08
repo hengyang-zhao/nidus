@@ -1,0 +1,166 @@
+#!/bin/sh
+
+UNKNOWN_STR="(unknown)"
+
+IS_LINUX()
+{
+    test "$(uname -s)" = Linux
+    return $?
+}
+
+IS_DARWIN()
+{
+    test "$(uname -s)" = Darwin
+    return $?
+}
+
+IS_CYGWIN()
+{
+    test "$(uname -o)" = Cygwin
+    return $?
+}
+
+if [ "$1" = "--loadavg-1min" ]; then
+
+    if IS_LINUX; then
+        uptime | sed 's/^.*load average:\s*\([0-9\.]\+\),.*$/\1/g'
+    elif IS_DARWIN; then
+        sysctl -n vm.loadavg | cut -d' ' -f 2
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--loadavg-5min" ]; then
+
+    if IS_LINUX; then
+        uptime | sed 's/^.*load average:.*,\s*\([0-9\.]\+\),.*$/\1/g'
+    elif IS_DARWIN; then
+        sysctl -n vm.loadavg | cut -d' ' -f 3
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--loadavg-15min" ]; then
+
+    if IS_LINUX; then
+        uptime | sed 's/^.*load average:.*,\s*\([0-9\.]\+\)\s*$/\1/g'
+    elif IS_DARWIN; then
+        sysctl -n vm.loadavg | cut -d' ' -f 4
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--uptime" ]; then
+
+    if IS_LINUX; then
+        uptime -p | sed 's/^up \(.*\)$/\1/g'
+    elif IS_DARWIN; then
+        uptime | sed -E 's/^.*up[[:blank:]]+(.*),[[:blank:]]+[[:digit:]]+[[:blank:]]+users.*$/\1/g'
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--cpu-logical-cores" ]; then
+
+    if IS_LINUX; then
+        expr "$(grep -E '^processor' /proc/cpuinfo | tail -1 | cut -d: -f2 | xargs)" + 1
+    elif IS_DARWIN; then
+        sysctl -n hw.ncpu
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--cpu-freq-mhz" ]; then
+
+    echo "$UNKNOWN_STR"
+    exit 0
+
+elif [ "$1" = "--mem-total" ]; then
+
+    echo "$UNKNOWN_STR"
+    exit 0
+
+elif [ "$1" = "--mem-avail" ]; then
+
+    echo "$UNKNOWN_STR"
+    exit 0
+
+elif [ "$1" = "--swap-total" ]; then
+
+    echo "$UNKNOWN_STR"
+    exit 0
+
+elif [ "$1" = "--swap-avail" ]; then
+
+    echo "$UNKNOWN_STR"
+    exit 0
+
+elif [ "$1" = "--users" ]; then
+
+    if IS_LINUX || IS_DARWIN; then
+        users | wc -w
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--users-list" ]; then
+
+    if IS_LINUX || IS_DARWIN; then
+        users
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--distinct-users" ]; then
+
+    if IS_LINUX; then
+        users | sed 's/ /\n/g' | sort | uniq | wc -l
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+elif [ "$1" = "--distinct-users-list" ]; then
+
+    if IS_LINUX; then
+        users | sed 's/ /\n/g' | sort | uniq
+    else
+        echo "$UNKNOWN_STR"
+    fi
+
+elif [ "$1" = "--tiny-host-name" ]; then
+
+    HOSTNAME="$BASH_PS1_HOSTNAME"
+    if IS_LINUX || IS_CYGWIN; then
+        if [ -z "$HOSTNAME" ]; then
+            HOSTNAME=$(hostname -s)
+        fi
+        if [ "$(expr length "$HOSTNAME")" -gt 10 ]; then
+            echo "$HOSTNAME" | sed 's/^\(.\{6\}\).*\(.\{3\}\)$/\1`\2/g'
+        else
+            echo "$HOSTNAME"
+        fi
+    elif IS_DARWIN; then
+        if [ -z "$HOSTNAME" ]; then
+            HOSTNAME=$(hostname -s)
+        fi
+        if [ ${#HOSTNAME} -gt 10 ]; then
+            echo "$HOSTNAME" | sed -E 's/^(.{6}).*(.{3})$/\1`\2/g'
+        else
+            echo "$HOSTNAME"
+        fi
+    else
+        echo "$UNKNOWN_STR"
+    fi
+    exit 0
+
+else
+    exit 1
+fi
