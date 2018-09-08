@@ -23,8 +23,5 @@
 [diff]
     statGraphWidth = 20
 
-[include]
-    path = ~/.nidus_site_config/git/user
-    path = ~/.nidus_site_config/git/gitconfig
+# vim: ft=gitconfig:
 
-# vim: set ft=gitconfig:
