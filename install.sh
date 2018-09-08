@@ -9,19 +9,23 @@ function put {
 
     local severity="$1"
     local text="$2"
+    local indent=${indent:=""}
 
     case "$severity" in
         info)
-            builtin echo "$text"
+            builtin echo "$indent$text"
+            ;;
+        emph)
+            builtin echo $(tput bold)"$indent$text"$(tput sgr0)
             ;;
         warn)
-            builtin echo $(tput setaf 3)"$text"$(tput sgr0)
+            builtin echo $(tput setaf 3)"$indent$text"$(tput sgr0)
             ;;
         error)
-            builtin echo $(tput setaf 1)"$text"$(tput sgr0)
+            builtin echo $(tput setaf 1)"$indent$text"$(tput sgr0)
             ;;
         fatal)
-            builtin echo $(tput setab 1)"$text"$(tput sgr0)
+            builtin echo $(tput setab 1)"$indent$text"$(tput sgr0)
             ;;
     esac
 }
@@ -38,6 +42,8 @@ function random_digits {
 }
 
 function prepare_site_dir {
+    local indent="  "
+
     if ! mkdir -p "$SITE_DIR"; then
         put fatal "Unable to setup nidus site directory."
         return 1
@@ -97,6 +103,8 @@ function deploy {
     local dir="$1"
     local info_file="$dir/config.sh"
 
+    local indent="  "
+
     (
         if ! source "$info_file"; then
             put error "Invalid info file: $dir/config.sh."
@@ -110,7 +118,8 @@ function deploy {
                     backup "$install" "$backup_name" || return 1
                     ;;
                 skip)
-                    put info "File $install exists. Skipped installation."
+                    put info "File $install exists."
+                    put info "Skipped installation."
                     return 0
                     ;;
                 *)
@@ -120,7 +129,6 @@ function deploy {
             esac
         fi
 
-        put info "Installing to $install."
         case "$type" in
             dynamic)
                 local cmd="'$dir/$source' '$install'"
@@ -147,18 +155,23 @@ function deploy {
             put error "Unable to install $install."
             return 1
         fi
+
+        put info "Wrote file $install."
     )
 }
 
 
 function main {
+    put emph "Setting up site config directory:"
     prepare_site_dir || return 1
 
     for conf_dir in $NIDUS_DIR/configs/???-*; do
         local base="$(basename "$conf_dir")"
-        put info "Installing $base."
+        put emph "Installing $base:"
         deploy "$conf_dir"
     done
+
+    put emph "Installation complete."
 }
 
 main
