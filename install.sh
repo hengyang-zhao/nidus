@@ -85,7 +85,7 @@ function backup {
         fi
 
         mv "$src" "$dst" || return 1
-        put info "Backed up file $src to $dst."
+        put warn "Backed up file $src to $dst."
     fi
 
     return 0
