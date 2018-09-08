@@ -1,0 +1,5 @@
+for rc in split(globpath("$HOME/.nidus_site_config/nidus/assets/vim/rc.d/", "*.vim"), '\n')
+    execute "source" rc
+endfor
+
+" vim: set ft=vim:
