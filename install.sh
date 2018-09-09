@@ -113,13 +113,19 @@ function deploy {
 
         if [ -e "$install" ]; then
 
+            if diff "$dir/$source" "$install" &>/dev/null; then
+                put info "File $install is identical to the installation source."
+                put info "Skipped backup and installation."
+                return 0
+            fi
+
             case "$conflict" in
                 backup)
                     backup "$install" "$backup_name" || return 1
                     ;;
                 skip)
                     put info "File $install exists."
-                    put info "Skipped installation."
+                    put info "Skipped installation according to conflict policy."
                     return 0
                     ;;
                 *)
