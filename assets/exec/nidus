@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+function put {
+    builtin echo "$*"
+}
+
+function do_reinstall {
+    "$HOME/.nidus_site_config/nidus/install.sh"
+}
+
+function do_info {
+    man nidus
+}
+
+function print_usage {
+    put "Usage: nidus [ info | reinstall ]"
+}
+
+function main {
+    if [ "$#" != 1 ]; then
+        print_usage
+        return 1
+    fi
+
+    local subcommand="$1"
+    case "$subcommand" in
+        info)
+            do_info
+            ;;
+        reinstall)
+            do_reinstall
+            ;;
+        *)
+            put "Invalid subcommand: $subcommand"
+            print_usage
+            return 1
+    esac
+}
+
+main $*
