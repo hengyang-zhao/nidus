@@ -12,17 +12,58 @@ function do_info {
     man nidus
 }
 
+function do_banner {
+    local on_off="$1"
+    local banner_file="$HOME/.nidus_site_config/bash/profile/99-banner.sh"
+    local banner_disabled="$HOME/.nidus_site_config/bash/profile/.99-banner.sh.disabled"
+    case "$on_off" in
+        on)
+            if [ -e "$banner_file" ]; then
+                put "Already enabled."
+                return 0
+            fi
+            if mv -f "$banner_disabled" "$banner_file" &>/dev/null; then
+                put "Banner enabled."
+            else
+                put "Unable to enable banner."
+            fi
+            ;;
+        off)
+            if ! [ -e "$banner_file" ]; then
+                put "Already disabled."
+                return 0
+            fi
+            if mv -f "$banner_file" "$banner_disabled" &>/dev/null; then
+                put "Banner disabled."
+            else
+                put "Unable to disable banner."
+            fi
+            ;;
+        *)
+            put "Please use on/off."
+            return 1
+            ;;
+    esac
+}
+
 function print_usage {
-    put "Usage: nidus [ info | reinstall ]"
+    put "Usage: nidus subcommand"
+    put "Subcommand:"
+    put "    info                   - alias of man nidus"
+    put "    reinstall              - reinstall nidus"
+    put "    banner [ on | off ]    - turn on/off banner"
 }
 
 function main {
-    if [ "$#" != 1 ]; then
+
+    if [ $# -lt 1 ]; then
         print_usage
         return 1
     fi
 
     local subcommand="$1"
+    shift
+
     case "$subcommand" in
         info)
             do_info
@@ -30,8 +71,11 @@ function main {
         reinstall)
             do_reinstall
             ;;
+        banner)
+            do_banner $*
+            ;;
         *)
-            put "Invalid subcommand: $subcommand"
+            put "Invalid subcommand: $subcommand."
             print_usage
             return 1
     esac

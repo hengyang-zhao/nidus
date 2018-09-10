@@ -1,14 +1,23 @@
 __nidus_complete()
 {
-    if [ "${#COMP_WORDS[@]}" != 2 ]; then
-        return 0
-    fi
-
-    local cur opts
+    local cur opts prev
 
     cur="${COMP_WORDS[COMP_CWORD]}"
-    opts="info reinstall"
 
-    COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+    case "${#COMP_WORDS[@]}" in
+        2)
+            opts="info reinstall banner"
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            ;;
+        3)
+            prev="${COMP_WORDS[COMP_CWORD-1]}"
+            if [ "$prev" = banner ]; then
+                opts="on off"
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            fi
+            ;;
+        *)
+            COMPREPLY=()
+    esac
 }
 complete -F __nidus_complete nidus

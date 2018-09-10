@@ -178,6 +178,7 @@ function main {
     done
 
     put emph "Installation complete."
+    put emph "Nidus will take effect on your next login."
 }
 
 main
