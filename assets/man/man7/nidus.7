@@ -78,6 +78,48 @@ control; files are sourced in ascii order and recommended to be named like
 stores site specific executables; this directory is automatically included
 in the PATH variable
 
+.SH MODIFIED COMMAND
+.TP
+.B cd
+a modified version from Petar Marinov's acd_func; will automatically issue a
+.B ls
+command on directory change
+
+.TP
+.B cd --
+print
+.B cd
+history up to 10 items
+
+.TP
+.B cd -#
+.B cd
+into history item '#'
+
+.TP
+.B git
+aliased to \fBhub\fR, if available
+
+.SH ONE LETTER ALIASES
+
+.TP
+.B \-
+cd ..
+
+.TP
+.B t
+attach to session 'main' in \fBtmux\fR; create if not exist
+
+.SH TOY COMMAND
+
+.TP
+.B bashtrap
+while true, do bash; no need to panic \-\-\- you have your way out
+
+.TP
+.B regex\-test
+an interactive environment for testing bash regular expression
+
 .SH FEATURE VARIABLE
 
 .TP

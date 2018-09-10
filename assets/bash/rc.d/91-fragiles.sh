@@ -5,7 +5,7 @@ __nidus_infinite_bash()
         clear
         echo
         echo "+============================================================+"
-        echo "|                         Nidus Trap                         |"
+        echo "|                      Nidus Bash Trap                       |"
         echo "+------------------------------------------------------------+"
         echo "| ** This bash session will be RESTARTED on normal exit.     |"
         echo "| ** To escape, use exit code 200.                           |"
@@ -15,7 +15,7 @@ __nidus_infinite_bash()
     done
     return 0
 }
-alias __nidus_trap=__nidus_infinite_bash
+alias bashtrap=__nidus_infinite_bash
 
 __nidus_has hub && alias git=hub
 
@@ -90,7 +90,3 @@ __nidus_verbose_cd() {
     return $ret
 }
 
-__nidus_adjust_clock() {
-    sudo ntpdate "time.nist.gov"
-}
-__nidus_has ntpdate && alias __nidus_adjust_clock=__nidus_adjust_clock
