@@ -4,6 +4,12 @@ function put {
     builtin echo "$*"
 }
 
+function echoed_do {
+    local cmd="$1"
+    put "$(tput bold)$cmd$(tput sgr0)"
+    eval "$cmd"
+}
+
 function do_reinstall {
     "$HOME/.nidus_site_config/nidus/install.sh"
 }
@@ -50,13 +56,19 @@ function do_banner {
     esac
 }
 
+function do_update {
+    echoed_do "cd '$HOME/.nidus_site_config/nidus'"
+    echoed_do "git pull"
+}
+
 function print_usage {
     put "Usage: nidus subcommand"
     put "Subcommand:"
-    put "    info                   - alias of man nidus"
-    put "    reinstall              - reinstall nidus"
     put "    banner [ on | off ]    - turn on/off banner"
     put "    clean                  - delete backup directory"
+    put "    info                   - alias of man nidus"
+    put "    reinstall              - reinstall nidus"
+    put "    update                 - update nidus"
 }
 
 function main {
@@ -81,6 +93,9 @@ function main {
             ;;
         clean)
             do_clean
+            ;;
+        update)
+            do_update
             ;;
         *)
             put "Invalid subcommand: $subcommand."
