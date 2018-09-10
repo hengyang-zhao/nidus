@@ -171,11 +171,20 @@ function main {
     put emph "Setting up site config directory:"
     prepare_site_dir || return 1
 
+    local has_error=no
+
     for conf_dir in $NIDUS_DIR/configs/???-*; do
         local base="$(basename "$conf_dir")"
         put emph "Installing $base:"
-        deploy "$conf_dir"
+        if ! deploy "$conf_dir"; then
+            has_error=yes
+        fi
     done
+
+    if [ "$has_error" == yes ]; then
+        put error "Error occured. Installation may be incomplete."
+        return 1
+    fi
 
     put emph "Installation complete."
     put emph "Nidus will take effect on your next login."
