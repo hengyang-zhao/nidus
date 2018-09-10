@@ -1,4 +1,4 @@
-.TH NIDUS 7
+.TH NIDUS 7 "September 2018" "Project Nidus 1.0" "User Command"
 
 .SH NAME
 .B nidus
@@ -9,6 +9,178 @@
 .B subcommand
 
 .SH DESCRIPTION
+Command
 .B nidus
-facilitates management and information querying for project nidus.
+facilitates management and information querying for project nidus.  Project
+nidus provides version controlled initialization files for common unix tools,
+such as bash, vim, tmux, git, etc.
 
+.SH SUBCOMMAND
+.TP
+.B info
+show this man page
+
+.TP
+.B reinstall
+reinstall project nidus; in most cases this is not required unless the version
+controlled nidus project directory is moved, or on major upgrade
+
+.TP
+.B banner [ on | off ]
+turn on/off the startup banner
+
+.SH DIRECTORY
+.TP
+.B ~/.nidus_site_config/bash/profile/
+stores site specific bash profiles; various path extensions are recommended
+to put here; this directory is not under version control; files are sourced
+in ascii order and recommended to be named like
+.I 00-example.sh
+
+.TP
+.B ~/.nidus_site_config/bash/rc/
+stores site specific bash rc files; interactive enhancement configurations
+are recommended to put here; this directory is not under version control;
+files are sourced in ascii order and recommended to be named like
+.I 00-example.sh
+
+.TP
+.B ~/.nidus_site_config/git/
+stores stie specific git config files; currently only
+.I custom
+and
+.I user
+are automatically in effect
+
+.TP
+.B ~/.nidus_site_config/tmux/
+stores stie specific git config files; currently only
+.I custom.conf
+is automatically in effect
+
+.TP
+.B ~/.nidus_site_config/vim/
+stores site specific vim rc files; this directory is not under version
+control; files are sourced in ascii order and recommended to be named like
+.I 00-example.vim
+
+.TP
+.B ~/.nidus_site_config/exec/
+stores site specific executables; this directory is automatically included
+in the PATH variable
+
+.SH FEATURE VARIABLE
+
+.TP
+.B NIDUS_THICK_SEPARATOR
+enable thick separator (suggested for terminals not supporting underscore style)
+
+.TP
+.B NIDUS_THICK_SEPARATOR_CHAR
+override filler char in the thick separator
+
+.TP
+.B NIDUS_ENABLE_CMD_EXPANSION
+enable command expansion
+
+.TP
+.B NIDUS_ENABLE_STATUS_LINE
+enable process status line
+
+.TP
+.B NIDUS_CMD_EXPANSION_SINK
+override the target fd when printing command expansion; default is the
+standard error fd: &2; allowed formats are: "/path/to/a/writtable/file" or &N
+where N is an open file descriptor
+
+.TP
+.B NIDUS_CMD_EXPANSION_SINK_PROXY_FD
+override the temporary allocated file descriptor used to relay the command
+expansion string; default value is 99
+
+.TP
+.B NIDUS_AUTO_ATTACH_TMUX
+exec tmux automatically upon a remote login;
+valid options: yes, no (default)
+
+.TP
+.B NIDUS_PS1_HOSTNAME
+force using this as hostname info in the bash PS1 prompt
+
+.SH STYLE VARIABLE
+
+.TP
+.B NIDUS_FMT_PS1_HOSTNAME NIDUS_FMT_PS1_HOSTNAME_ROOT
+override hostname style in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_USERNAME NIDUS_FMT_PS1_USERNAME_ROOT
+override username style in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_USERHOST_PUNCT NIDUS_FMT_PS1_USERHOST_PUNCT_ROOT
+override user and host punct style in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_IFS
+override non-default IFS labelstyle in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_IFS_VALUE
+override non-default IFS valuestyle in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_CHROOT NIDUS_FMT_PS1_CHROOT_ROOT
+override style for chroot indicator in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_BG_INDICATOR
+override style of number of background processes indicator in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_SHLVL_INDICATOR
+override style of shell level indicator in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_SCREEN_INDICATOR
+override style of GNU screen session indicator in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_GIT_INDICATOR
+override style of git indicator in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_CWD
+override style of cwd in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_PHYSICAL_CWD
+override style of automatic physical cwd indicator in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_DOLLAR_HASH
+override style of the dollar/hash sign in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_STATUS_OK
+override style of the process status-ok indicator
+
+.TP
+.B NIDUS_FMT_STATUS_ERROR
+override style of the process status-error indicator
+
+.TP
+.B NIDUS_FMT_STATUS_HRULE
+override style of the process status line
+
+.TP
+.B NIDUS_FMT_CMD_EXPANSIONS
+override style of the command expansion lines
+
+.SH
+SEE ALSO
+bash(1), tmux(1), git(1), vim(1)
+
+.SH
+AUTHOR
+Hengyang Zhao <hzhao877502@gmail.com> at UC Riverside

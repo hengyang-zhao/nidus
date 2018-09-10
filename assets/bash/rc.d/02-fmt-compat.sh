@@ -21,9 +21,9 @@ function __nidus_fmt {
                 ;;
             ps1_userhost_punct)
                 if [ "$UID" -eq 0 ]; then
-                    fmt_ctrl_seq+=${NIDUS_FMT_PS1_HOSTCHAIN_DECOR_ROOT:-$'\033[38;5;52m'}
+                    fmt_ctrl_seq+=${NIDUS_FMT_PS1_USERHOST_PUNCT_ROOT:-$'\033[38;5;52m'}
                 else
-                    fmt_ctrl_seq+=${NIDUS_FMT_PS1_HOSTCHAIN_DECOR:-$'\033[38;5;22m'}
+                    fmt_ctrl_seq+=${NIDUS_FMT_PS1_USERHOST_PUNCT:-$'\033[38;5;22m'}
                 fi
                 ;;
             ps1_ifs)
