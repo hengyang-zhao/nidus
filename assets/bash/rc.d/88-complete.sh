@@ -6,7 +6,7 @@ __nidus_complete()
 
     case "${#COMP_WORDS[@]}" in
         2)
-            opts="info reinstall banner"
+            opts="info reinstall banner clean"
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             ;;
         3)

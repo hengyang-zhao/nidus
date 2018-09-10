@@ -12,6 +12,10 @@ function do_info {
     man nidus
 }
 
+function do_clean {
+    rm -rf $HOME/.nidus_backup
+}
+
 function do_banner {
     local on_off="$1"
     local banner_file="$HOME/.nidus_site_config/bash/profile/99-banner.sh"
@@ -52,6 +56,7 @@ function print_usage {
     put "    info                   - alias of man nidus"
     put "    reinstall              - reinstall nidus"
     put "    banner [ on | off ]    - turn on/off banner"
+    put "    clean                  - delete backup directory"
 }
 
 function main {
@@ -73,6 +78,9 @@ function main {
             ;;
         banner)
             do_banner $*
+            ;;
+        clean)
+            do_clean
             ;;
         *)
             put "Invalid subcommand: $subcommand."
