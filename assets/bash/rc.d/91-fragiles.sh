@@ -77,7 +77,14 @@ __nidus_verbose_cd() {
     local ret=$?
     if [ $ret -eq 0 ]; then
         if [ "$1" != -- ]; then
-            ls >&2
+            if __nidus_has timeout; then
+                timeout 1 ls
+                if [ $? = 124 ]; then
+                    builtin echo "Command ls timed out." >&2
+                fi
+            else
+                ls
+            fi
         fi
     fi
     return $ret
