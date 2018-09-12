@@ -35,7 +35,7 @@ cat << EOF
 # THIS FILE IS NOT UNDER NIDUS VERSION CONTROL.
 
 [user]
-    user = $user_name
+    name = $user_name
     email = $user_email
 
 # vim: ft=gitconfig:

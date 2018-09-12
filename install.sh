@@ -5,6 +5,9 @@ SITE_DIR="$HOME/.nidus_site_config"
 
 NIDUS_DIR="$(builtin cd "$(dirname $0)"; builtin pwd -P)"
 
+OVERWRITE=0
+NO_BACKUP=0
+
 function put {
 
     local severity="$1"
@@ -115,13 +118,19 @@ function deploy {
 
             if diff "$dir/$source" "$install" &>/dev/null; then
                 put info "File $install is identical to the installation source."
-                put info "Skipped backup and installation."
+                put info "Skipped backup and/or installation."
                 return 0
+            fi
+
+            if [ "$OVERWRITE_ALL" = 1 ]; then
+                conflict=backup
             fi
 
             case "$conflict" in
                 backup)
-                    backup "$install" "$backup_name" || return 1
+                    if [ "$NO_BACKUP" = 0 ]; then
+                        backup "$install" "$backup_name" || return 1
+                    fi
                     ;;
                 skip)
                     put info "File $install exists."
@@ -166,8 +175,28 @@ function deploy {
     )
 }
 
+function parse_args {
+
+    while [ "$#" -ge 1 ]; do
+        case "$1" in
+            --overwrite-all)
+                OVERWRITE_ALL=1
+                put emph "Will overwrite all conflicting files."
+                ;;
+
+            --no-backup)
+                NO_BACKUP=1
+                put warn "Will not backup conflicting files."
+                ;;
+        esac
+        shift
+    done
+}
 
 function main {
+
+    parse_args $*
+
     put emph "Setting up site config directory:"
     prepare_site_dir || return 1
 
@@ -190,4 +219,5 @@ function main {
     put emph "Nidus will take effect on your next login."
 }
 
-main
+main $*
+
