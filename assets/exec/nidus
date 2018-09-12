@@ -24,8 +24,8 @@ function do_clean {
 
 function do_banner {
     local on_off="$1"
-    local banner_file="$HOME/.nidus_site_config/bash/profile/99-banner.sh"
-    local banner_disabled="$HOME/.nidus_site_config/bash/profile/.99-banner.sh.disabled"
+    local banner_file="$HOME/.nidus_site_config/bash/rc/49-banner.sh"
+    local banner_disabled="$HOME/.nidus_site_config/bash/rc/.49-banner.sh.disabled"
     case "$on_off" in
         on)
             if [ -e "$banner_file" ]; then
