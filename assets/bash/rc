@@ -2,14 +2,6 @@ if [ -f /etc/bashrc ]; then
     source /etc/bashrc
 fi
 
-HISTCONTROL=ignoreboth
-HISTSIZE=999999
-HISTFILESIZE=999999
-HISTTIMEFORMAT="%Y-%m-%d %T  "
-
-shopt -s checkwinsize
-shopt -s histappend
-
 __nidus_load_rc() {
     local IFS=$' \t\n'
     local rc_file

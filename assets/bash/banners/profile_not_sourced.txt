@@ -1,0 +1,8 @@
+--
+-- Warning! Your nidus bash profile is not sourced.
+--
+-- To fix this, please login again to expect a successful banner.
+--
+-- If this problem persists, please configure your terminal (emulator) to
+-- invoke login shells.
+--

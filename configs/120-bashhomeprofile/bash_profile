@@ -4,7 +4,7 @@
 # THIS FILE IS NOT UNDER NIDUS VERSION CONTROL.
 # THIS FILE WILL BE BACKED UP AND RESET ON NIDUS REINSTALLATION.
 
-__nidus_bash_profile="$HOME/.nidus_site_config/nidus/assets/bash/profile"
+export __nidus_bash_profile="$HOME/.nidus_site_config/nidus/assets/bash/profile"
 
 if [ -f "$__nidus_bash_profile" ]; then
     source "$__nidus_bash_profile"
