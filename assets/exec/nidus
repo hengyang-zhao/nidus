@@ -67,7 +67,7 @@ function print_usage {
     put "    banner [ on | off ]    - turn on/off banner"
     put "    clean                  - delete backup directory"
     put "    info                   - alias of man nidus"
-    put "    reinstall              - reinstall nidus"
+    put "    reinstall [ arg ... ]  - reinstall nidus"
     put "    update                 - update nidus"
 }
 
@@ -86,7 +86,7 @@ function main {
             do_info
             ;;
         reinstall)
-            do_reinstall
+            do_reinstall $*
             ;;
         banner)
             do_banner $*

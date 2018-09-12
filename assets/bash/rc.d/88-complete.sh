@@ -11,10 +11,18 @@ __nidus_complete()
             ;;
         3)
             prev="${COMP_WORDS[COMP_CWORD-1]}"
-            if [ "$prev" = banner ]; then
-                opts="on off"
-                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
-            fi
+            case "$prev" in
+                banner)
+                    opts="on off"
+                    COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                    ;;
+                reinstall)
+                    opts="--overwrite-all --no-backup"
+                    COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                    ;;
+                *)
+                    COMPREPLY=()
+            esac
             ;;
         *)
             COMPREPLY=()
