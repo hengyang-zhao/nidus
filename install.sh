@@ -78,7 +78,7 @@ function backup {
     local src="$1"
     local dst="$BACKUP_DIR/$2__$(random_digits 8).backup"
 
-    if ! [ -e "$src" ]; then
+    if [ ! -L "$src" ] && [ ! -e "$src" ]; then
         return 0
     fi
 
@@ -87,17 +87,17 @@ function backup {
         return 1
     fi
 
-    if [ -e "$src" ]; then
-
-        local dst_dir="$(dirname $dst)"
-        if ! mkdir -p "$dst_dir"; then
-            put error "Unable to make backup directory $dst_dir."
-            return 1
-        fi
-
-        mv "$src" "$dst" || return 1
-        put warn "Backed up file $src to $dst."
+    local dst_dir="$(dirname $dst)"
+    if ! mkdir -p "$dst_dir"; then
+        put error "Unable to make backup directory $dst_dir."
+        return 1
     fi
+
+    if ! mv "$src" "$dst"; then
+        put error "Unable to backup file $src to $dst."
+        return 1
+    fi
+    put warn "Backed up file $src to $dst."
 
     return 0
 }
@@ -114,7 +114,7 @@ function deploy {
             return 1
         fi
 
-        if [ -e "$install" ]; then
+        if [ -e "$install" ] || [ -L "$install" ]; then
 
             if diff "$dir/$source" "$install" &>/dev/null; then
                 put info "File $install is identical to the installation source."
@@ -131,6 +131,7 @@ function deploy {
                     if [ "$NO_BACKUP" = 0 ]; then
                         backup "$install" "$backup_name" || return 1
                     fi
+                    rm -f "$install"
                     ;;
                 skip)
                     put info "File $install exists."
