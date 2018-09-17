@@ -4,6 +4,8 @@
 # THIS FILE IS NOT UNDER NIDUS VERSION CONTROL.
 # THIS FILE WILL BE BACKED UP AND RESET ON NIDUS REINSTALLATION.
 
+[ -z "$PS1" ] && return
+
 __nidus_bashrc="$HOME/.nidus_site_config/nidus/assets/bash/rc"
 
 if [ -f "$__nidus_bashrc" ]; then
