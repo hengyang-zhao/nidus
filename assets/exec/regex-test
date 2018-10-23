@@ -11,11 +11,11 @@ pattern="$1"
 shift
 
 if [ -t 1 ]; then
-    RED=$'\033[31m'
-    GREEN=$'\033[32m'
-    BRIGHT=$'\033[1m'
-    DIM=$'\033[90m'
-    RESET=$'\033[0m'
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2)
+    BRIGHT=$(tput bold)
+    DIM=$(tput dim)
+    RESET=$(tput sgr0)
 else
     RED=
     GREEN=
