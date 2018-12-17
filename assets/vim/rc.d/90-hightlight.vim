@@ -21,7 +21,7 @@ autocmd InsertLeave * call EnterNormalModeHighlight()
 
 call EnterNormalModeHighlight()
 
-if &term =~ "xterm" || &term =~ "putty"
+if &term =~ "xterm" || &term =~ "putty" || &term =~ "tmux"
     set t_ZH=[3m
     set t_ZR=[23m
     highlight Comment cterm=Italic
