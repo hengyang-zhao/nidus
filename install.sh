@@ -52,23 +52,46 @@ function prepare_site_dir {
         return 1
     fi
 
-    local link_name="$SITE_DIR/nidus"
+    local proj_link="$SITE_DIR/nidus"
+    local site_link="${SITE_LINK:=$HOME/.n}"
 
-    if [ -e "$link_name" ] && ! [ -L "$link_name" ]; then
+    if [ -e "$proj_link" ] && ! [ -L "$proj_link" ]; then
         put fatal "Unable to setup nidus symbolic link."
-        put fatal "Target $link_name exists but is not a symbolic link."
+        put fatal "Target $proj_link exists but is not a symbolic link."
         return 1
+    else
+        rm -f "$proj_link"
+
+        if (builtin cd "$SITE_DIR" && ln -s "$NIDUS_DIR" "$(basename "$proj_link")"); then
+            put info "Linked $proj_link to $NIDUS_DIR."
+        else
+            put fatal "Unable to setup symbolic link to nidus project directory."
+            return 1
+        fi
     fi
 
-    rm -f "$link_name"
-
-    if ! (builtin cd "$SITE_DIR" && ln -s "$NIDUS_DIR" "$(basename "$link_name")"); then
-        put fatal "Unable to setup nidus symbolic link."
+    if [ -L "$site_link" ]; then
+        if [ "$(readlink "$site_link")" = "$SITE_DIR" ]; then
+            : # We're just good.
+        else
+            put fatal "Unable to setup site config symbolic link."
+            put fatal "Link $site_link was created by another application."
+            return 1
+        fi
+    elif ! [ -e "$site_link" ]; then
+        if (builtin cd "$HOME" && ln -s "$SITE_DIR" "$(basename "$site_link")"); then
+            put info "Linked $site_link to $SITE_DIR."
+        else
+            put fatal "Unable to setup symbolic link to nidus site config directory."
+            return 1
+        fi
+    else
+        put fatal "Unable to setup site config symbolic link."
+        put fatal "Target $site_link exists but is not a symbolic link."
         return 1
     fi
 
     put info "Site directory $SITE_DIR is ready."
-    put info "Linked $link_name to $NIDUS_DIR."
 
     return 0
 }
