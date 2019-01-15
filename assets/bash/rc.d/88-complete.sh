@@ -1,6 +1,6 @@
 __nidus_complete()
 {
-    local cur opts prev
+    local cur opts subcmd
 
     cur="${COMP_WORDS[COMP_CWORD]}"
 
@@ -10,22 +10,33 @@ __nidus_complete()
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             ;;
         3)
-            prev="${COMP_WORDS[COMP_CWORD-1]}"
-            case "$prev" in
+            subcmd="${COMP_WORDS[COMP_CWORD-1]}"
+            case "$subcmd" in
                 banner)
                     opts="on off"
                     COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                     ;;
                 reinstall)
-                    opts="--overwrite-all --no-backup"
+                    opts="--overwrite-all --no-backup --force-legacy"
                     COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                     ;;
                 *)
                     COMPREPLY=()
+                    ;;
             esac
             ;;
         *)
-            COMPREPLY=()
+            subcmd="${COMP_WORDS[1]}"
+            case "$subcmd" in
+                reinstall)
+                    opts="--overwrite-all --no-backup --force-legacy"
+                    COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            ;;
     esac
 }
 complete -F __nidus_complete nidus
