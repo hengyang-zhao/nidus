@@ -7,6 +7,7 @@ NIDUS_DIR="$(builtin cd "$(dirname $0)"; builtin pwd -P)"
 
 OVERWRITE=0
 NO_BACKUP=0
+FORCE_LEGACY=0
 
 function put {
 
@@ -212,6 +213,10 @@ function parse_args {
                 NO_BACKUP=1
                 put warn "Will not backup conflicting files."
                 ;;
+
+            --force-legacy)
+                FORCE_LEGACY=1
+                put warn "Will install disregard bash version."
         esac
         shift
     done
@@ -220,6 +225,16 @@ function parse_args {
 function main {
 
     parse_args $*
+
+    if [ "${BASH_VERSINFO[0]}" -lt "$(<$NIDUS_DIR/install.d/minimum_bash_version/major)" ]; then
+        if [ "${FORCE_LEGACY}" = 1 ]; then
+            put warn "Will force install nidus disregard the current legacy bash (version $BASH_VERSION)"
+        else
+            put fatal "Current bash ($BASH_VERSION) is not supported."
+            put fatal "To force install nidus, turn on switch --force-legacy."
+            return 1
+        fi
+    fi
 
     put emph "Setting up site config directory:"
     prepare_site_dir || return 1

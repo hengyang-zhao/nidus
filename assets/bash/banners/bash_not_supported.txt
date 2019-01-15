@@ -1,0 +1,4 @@
+--
+-- Your bash version is too low.
+-- Nidus is not taking effect.
+--

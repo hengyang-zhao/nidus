@@ -1,3 +1,7 @@
+if [ "${BASH_VERSINFO[0]}" -lt "$(<$HOME/.nidus_site_config/nidus/install.d/minimum_bash_version/major)" ]; then
+    return 1
+fi
+
 __nidus_load_profile() {
     local IFS=$' \t\n'
     local profile
