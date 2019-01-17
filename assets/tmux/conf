@@ -46,8 +46,6 @@ set -g window-status-separator ''
 set -g history-limit 4096
 set -g allow-rename off
 
-set -g default-command "bash"
-
 set -g renumber-windows on
 setw -g aggressive-resize on
 
