@@ -153,8 +153,14 @@ function __nidus_ps1_git_indicator {
 }
 
 function __nidus_ps1_cwd {
+    local hook=hidus_ps1_cwd_hook
+
     __nidus_fmt ps1_cwd zero_width
-    __nidus_inline_echo "$1"
+    if [ "$(type -t "$hook")" = function ]; then
+        __nidus_inline_echo "$($hook "$1")"
+    else
+        __nidus_inline_echo "$1"
+    fi
     __nidus_reset_fmt zero_width
     return 0
 }
