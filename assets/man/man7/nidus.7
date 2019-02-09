@@ -229,6 +229,17 @@ override style of the process status line
 .B NIDUS_FMT_CMD_EXPANSIONS
 override style of the command expansion lines
 
+.SH HOOK
+.B nidus_hook_ps1_cwd
+reformat cwd field in bash PS1; cwd will be taken as the only argument;
+reformatted cwd should be inline-echoed; this hook is often useful when one
+wants to highlight a specific field in cwd; string substitutions of
+.B $(__nidus_fmt ps1_cwd)
+and
+.B $(__nidus_inline_echo)
+may be helpful; piping to GNU sed(1) taking advantage of regular expression is
+often desired
+
 .SH
 SEE ALSO
 bash(1), tmux(1), git(1), vim(1)
