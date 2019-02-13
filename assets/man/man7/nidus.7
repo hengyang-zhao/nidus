@@ -82,9 +82,7 @@ in the PATH variable
 .SH MODIFIED COMMAND
 .TP
 .B cd
-a modified version from Petar Marinov's acd_func; will automatically issue a
-.B ls
-command on directory change
+a modified version from Petar Marinov's acd_func
 
 .TP
 .B cd --
@@ -240,6 +238,12 @@ and
 .B $(__nidus_inline_echo)
 may be helpful; piping to GNU sed(1) taking advantage of regular expression is
 often desired
+
+.TP
+.B nidus_hook_postcd
+do extra work after
+.B cd
+command; arguments are ignored
 
 .SH
 SEE ALSO
