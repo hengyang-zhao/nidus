@@ -74,19 +74,11 @@ function __petar_marinov_cd_func {
 alias cd='__nidus_verbose_cd'
 __nidus_verbose_cd() {
     __petar_marinov_cd_func "$1"
-    local ret=$?
-    if [ $ret -eq 0 ]; then
-        if [ "$1" != -- ]; then
-            if __nidus_has timeout; then
-                timeout 1 ls -F
-                if [ $? = 124 ]; then
-                    builtin echo "Command ls timed out." >&2
-                fi
-            else
-                ls
-            fi
-        fi
+    local errno=$?
+    local hook=nidus_hook_postcd
+    if [ $errno -eq 0 ] && [ "$1" != -- ]; then
+        [ "$(type -t "$hook")" = function ] && "$hook"
     fi
-    return $ret
+    return $errno
 }
 
