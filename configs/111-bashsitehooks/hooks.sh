@@ -13,8 +13,8 @@ function nidus_hook_postcd {
 }
 
 # AN EXAMPLE OF REFORMATTING CWD/PWD STRING.
-# DIMS FORWARD SLASHES.
-function nidus_hook_ps1_cwd {
-    local cwd="$1"
-    __nidus_inline_echo "$cwd" | sed -e 's/\//'$'\033[2m''\/'$'\033[22m''/g'
-}
+# DIMS FORWARD SLASHES. DISABLED BY DEFAULT.
+#function nidus_hook_ps1_cwd {
+#    local cwd="$1"
+#    __nidus_inline_echo "$cwd" | sed -e 's/\//'$'\033[2m''\/'$'\033[22m''/g'
+#}
