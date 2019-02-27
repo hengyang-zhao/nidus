@@ -1,5 +1,7 @@
 function __nidus_fmt {
     local fmt_ctrl_seq i zero_width_wrapper
+    fmt_ctrl_seq=
+    zero_width_wrapper=no
     for i; do
         case "$i" in
             ps1_hostname)
@@ -93,11 +95,11 @@ function __nidus_fmt {
 
 __nidus_reset_fmt()
 {
-    local resetfmt_ctrl_seq=$'\033[0m'
+    local arg="${1:-}" resetfmt_ctrl_seq=$'\033[0m'
 
-    [ "$1" = zero_width ] && builtin echo -n $'\001'
+    [ "$arg" = zero_width ] && builtin echo -n $'\001'
     builtin echo -n "$resetfmt_ctrl_seq"
-    [ "$1" = zero_width ] && builtin echo -n $'\002'
+    [ "$arg" = zero_width ] && builtin echo -n $'\002'
 
     return 0
 }

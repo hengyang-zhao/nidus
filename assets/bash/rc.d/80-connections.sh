@@ -5,7 +5,9 @@ function __connect_screen {
         return
     fi
 
-    case "_$1" in
+    local arg=${1:-}
+
+    case "_$arg" in
         _)
             screen -q -x main || screen -S main
             ;;
@@ -25,7 +27,7 @@ function __connect_screen {
             screen -x $scrno
             ;;
         *)
-            screen -q -x "$1" || screen -S "$1"
+            screen -q -x "$arg" || screen -S "$arg"
             ;;
     esac
 }

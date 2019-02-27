@@ -25,7 +25,8 @@ __bc_calc()
 __nidus_has vboxmanage && alias lsvm='__query_vm'
 __query_vm()
 {
-    if ! [ $1 ]; then
+    local vm=${1:-}
+    if [ -z "$vm" ]; then
         echo $'\033[1m'---- registered guests ----$'\033[0m'
         vboxmanage list vms
         echo $'\033[1m'---- running guests ----$'\033[0m'
@@ -33,18 +34,18 @@ __query_vm()
         return 0
     fi
 
-    vboxmanage list vms | grep "\<$1\>" &> /dev/null
+    vboxmanage list vms | grep "\<$vm\>" &> /dev/null
     if ! [ 0 = $? ]; then
-        echo virtualbox guest "$1" does not exist.
+        echo virtualbox guest "$vm" does not exist.
         return -1
     fi
 
-    vboxmanage list runningvms | grep "\<$1\>" &> /dev/null
+    vboxmanage list runningvms | grep "\<$vm\>" &> /dev/null
     if [ 0 = $? ]; then
-        echo virtualbox guest "$1" is running.
+        echo virtualbox guest "$vm" is running.
         return 0
     else
-        echo virtualbox guest "$1" is stopped.
+        echo virtualbox guest "$vm" is stopped.
         return 1
     fi
 }

@@ -24,13 +24,14 @@ function __petar_marinov_cd_func {
     local x2 the_new_dir adir index
     local -i cnt
 
-    if [[ $1 ==  "--" ]]; then
+    the_new_dir=${1:-}
+
+    if [[ "$the_new_dir" ==  "--" ]]; then
         dirs -v
         return 0
     fi
 
-    the_new_dir=$1
-    [[ -z $1 ]] && the_new_dir=$HOME
+    [[ -z "$the_new_dir" ]] && the_new_dir="$HOME"
 
     if [[ ${the_new_dir:0:1} == '-' ]]; then
         #
@@ -73,10 +74,10 @@ function __petar_marinov_cd_func {
 
 alias cd='__nidus_verbose_cd'
 __nidus_verbose_cd() {
-    __petar_marinov_cd_func "$1"
+    __petar_marinov_cd_func $*
     local errno=$?
     local hook=nidus_hook_postcd
-    if [ $errno -eq 0 ] && [ "$1" != -- ]; then
+    if [ $errno -eq 0 ] && [ "${1:-}" != -- ]; then
         [ "$(type -t "$hook")" = function ] && "$hook"
     fi
     return $errno

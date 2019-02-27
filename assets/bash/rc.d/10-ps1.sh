@@ -7,15 +7,15 @@ function __nidus_inline_echo {
 
 function  __nidus_cursor_xpos {
     local saved_state xpos dummy
-    saved_state=$(stty -g)
+    saved_state="$(stty -g)"
     stty -echo
     echo -n $'\033[6n' > /dev/tty; read -s -d ';' dummy; read -s -dR xpos
     echo "$xpos"
-    stty $saved_state 2>/dev/null
+    stty "$saved_state" 2>/dev/null
 }
 
 function __nidus_force_newline {
-    if ! [ "$NIDUS_ENABLE_EXPLICIT_EOF" = yes ]; then
+    if ! [ "${NIDUS_ENABLE_EXPLICIT_EOF:-no}" = yes ]; then
         return
     fi
 
@@ -32,11 +32,11 @@ function __nidus_force_newline {
 }
 
 function __nidus_short_hostname {
-    if [ -z "$NIDUS_PS1_HOSTNAME" ]; then
-        local node_name=$(uname -n)
-        __nidus_inline_echo ${node_name%%.*}
+    if ! test -v NIDUS_PS1_HOSTNAME; then
+        local node_name="$(uname -n)"
+        __nidus_inline_echo "${node_name%%.*}"
     else
-        __nidus_inline_echo $NIDUS_PS1_HOSTNAME
+        __nidus_inline_echo "$NIDUS_PS1_HOSTNAME"
     fi
 }
 
@@ -53,13 +53,13 @@ function __nidus_ps1_user_host {
 
 function __nidus_ps1_username {
     __nidus_fmt ps1_username zero_width
-    __nidus_inline_echo $(whoami)
+    __nidus_inline_echo "$(whoami)"
     __nidus_reset_fmt zero_width
 }
 
 function __nidus_ps1_hostname {
     __nidus_fmt ps1_hostname zero_width
-    __nidus_inline_echo $(__nidus_short_hostname)
+    __nidus_inline_echo "$(__nidus_short_hostname)"
     __nidus_reset_fmt zero_width
     return 0
 }
@@ -85,7 +85,7 @@ function __nidus_ps1_non_default_ifs {
 }
 
 function __nidus_ps1_chroot {
-    if [ -n "$debian_chroot" ]; then
+    if test -v debian_chroot; then
         __nidus_fmt ps1_chroot zero_width
         __nidus_inline_echo "($debian_chroot)"
         __nidus_reset_fmt zero_width
@@ -109,7 +109,7 @@ function __nidus_ps1_bg_indicator {
 function __nidus_ps1_shlvl_indicator {
     if [ "$SHLVL" -gt 1 ]; then
         __nidus_fmt ps1_shlvl_indicator zero_width
-        __nidus_inline_echo "^$(expr $SHLVL - 1)"
+        __nidus_inline_echo "^$(expr "$SHLVL" - 1)"
         __nidus_reset_fmt zero_width
         return 0
     fi
@@ -117,7 +117,7 @@ function __nidus_ps1_shlvl_indicator {
 }
 
 function __nidus_ps1_screen_indicator {
-    if [ -n "$STY" ]; then
+    if test -v STY; then
         __nidus_fmt ps1_screen_indicator zero_width
         __nidus_inline_echo "*${STY#*.}*"
         __nidus_reset_fmt zero_width
@@ -129,12 +129,12 @@ function __nidus_ps1_screen_indicator {
 function __nidus_ps1_git_indicator {
 
     if type git &>/dev/null; then
-        gbr=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+        gbr="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
         if [ -n "$gbr" ]; then
             if [ "$gbr" = HEAD ]; then
-                gbr=$(git rev-parse HEAD 2>/dev/null | head -c8)
+                gbr="$(git rev-parse HEAD 2>/dev/null | head -c8)"
             fi
-            groot=$(basename ///$(git rev-parse --show-toplevel) 2>/dev/null)
+            groot="$(basename ///$(git rev-parse --show-toplevel) 2>/dev/null)"
 
             if [ "${#groot}" -gt 12 ]; then
                 groot="${groot: 0:8}\`${groot: -3:3}"
@@ -214,7 +214,7 @@ function __nidus_do_before_command {
     fi
     let '__NIDUS_COMMAND_SNO += 1'
 
-    if [ "${NIDUS_ENABLE_CMD_EXPANSION}" = no ]; then
+    if [ "${NIDUS_ENABLE_CMD_EXPANSION:-yes}" = no ]; then
         return
     fi
 
@@ -265,10 +265,10 @@ function __nidus_do_after_command {
 
     __nidus_force_newline
 
-    if [ $__NIDUS_COMMAND_SNO -gt 0 ]; then
+    if [ "$__NIDUS_COMMAND_SNO" -gt 0 ]; then
         __NIDUS_COMMAND_SNO=0
 
-        if [ "${NIDUS_ENABLE_STATUS_LINE}" = no ]; then
+        if [ "${NIDUS_ENABLE_STATUS_LINE:-yes}" = no ]; then
             return
         fi
 
@@ -281,7 +281,7 @@ function __nidus_do_after_command {
         done
 
         __nidus_reset_fmt
-        [ "$NIDUS_THICK_SEPARATOR" = yes ] || __nidus_fmt underline
+        [ "${NIDUS_THICK_SEPARATOR:-no}" = yes ] || __nidus_fmt underline
         if [ $ret = OK ]; then
             __nidus_fmt status_ok
             printf "%${COLUMNS}s\n" "$ts [ Status OK ]"
@@ -291,7 +291,7 @@ function __nidus_do_after_command {
         fi
         __nidus_reset_fmt
 
-        if [ "$NIDUS_THICK_SEPARATOR" = yes ]; then
+        if [ "${NIDUS_THICK_SEPARATOR:-no}" = yes ]; then
             __nidus_fmt horizontal_rule
             printf "%${COLUMNS}s\n" "" | tr " " "${NIDUS_THICK_SEPARATOR_CHAR:-~}"
             __nidus_reset_fmt
