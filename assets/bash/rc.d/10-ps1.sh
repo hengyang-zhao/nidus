@@ -255,9 +255,27 @@ function __nidus_do_before_command {
     eval "__nidus_ps1_newline >&$proxy_fd"
 
     eval "exec $proxy_fd>&-"
+
+
+    # Many bash command completion scripts use unbound variables, i.e.,
+    # dereference an undefined variable and use its fallback substution, which
+    # is an empty string. Turning on this option (-u) is therefore going to be
+    # break these scripts, which are in fact stable, fortunately.
+    if [ "${NIDUS_REPORT_UNBOUND_VARIABLE:-yes}" = yes ]; then
+        set -u
+    fi
 }
 
 function __nidus_do_after_command {
+
+    # At this point, since bash completion scripts are so widely used, it is
+    # safe of assume that user leaves this option (-u) off by default, so that
+    # command completion can work. Given this, the option is switched on/off
+    # siliently, providing safer interactive variable substitution, in a not-
+    # so-annoying way, hopefully.
+    if [ "${NIDUS_REPORT_UNBOUND_VARIABLE:-yes}" = yes ]; then
+        set +u
+    fi
 
     local IFS=$' \t\n'
     local eno ts
