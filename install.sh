@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 BACKUP_DIR="$HOME/.nidus_backup"
 SITE_DIR="$HOME/.nidus_site_config"
 
 NIDUS_DIR="$(builtin cd "$(dirname $0)"; builtin pwd -P)"
 
-OVERWRITE=0
+OVERWRITE_ALL=0
 NO_BACKUP=0
 FORCE_LEGACY=0
 
