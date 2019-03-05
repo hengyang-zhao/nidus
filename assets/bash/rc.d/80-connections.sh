@@ -35,15 +35,16 @@ function __connect_screen {
 __nidus_has tmux && alias t=__connect_tmux
 function __connect_tmux
 {
-    case "_$1" in
+    local arg="${1:-}"
+    case "_$arg" in
         _)
-            [ "$TMUX_ATTACHED" != yes ] && tmux new -c ~ -As main
+            [ "${TMUX_ATTACHED:-no}" != yes ] && tmux new -c ~ -As main
             ;;
         _:)
             tmux ls
             ;;
         *)
-            [ "$TMUX_ATTACHED" != yes ] && tmux new -c ~ -As "$1"
+            [ "${TMUX_ATTACHED:-no}" != yes ] && tmux new -c ~ -As "$arg"
             ;;
     esac
 }

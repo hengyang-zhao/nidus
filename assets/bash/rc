@@ -20,11 +20,11 @@ __nidus_load_rc
 unset -f __nidus_load_rc
 
 if __nidus_has tmux; then
-    if [ "$NIDUS_FORCE_TMUX" = yes ] && [ -z "$TMUX" ]; then
+    if [ "${NIDUS_FORCE_TMUX:-no}" = yes ] && ! [ -v TMUX ]; then
         exec tmux new -As main
-    elif [ "$NIDUS_FORCE_TMUX" = no ]; then
+    elif [ "${NIDUS_FORCE_TMUX:-no}" = no ]; then
         :
-    elif [ "$NIDUS_AUTO_ATTACH_TMUX" = yes ] && [ "$NIDUS_TMUX_ATTACHED" != yes ] && [ -n "$SSH_CONNECTION" ]; then
+    elif [ "${NIDUS_AUTO_ATTACH_TMUX:-no}" = yes ] && [ "${NIDUS_TMUX_ATTACHED:-no}" != yes ] && [ -v SSH_CONNECTION ]; then
         exec tmux new -As main
     fi
 fi
