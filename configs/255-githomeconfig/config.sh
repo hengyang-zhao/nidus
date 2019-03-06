@@ -2,7 +2,7 @@ type="copy"
 source="gitconfig"
 conflict="backup"
 backup_name="githomeconfig"
-install="$HOME/.gitconfig"
+install="$(home_dir)/.gitconfig"
 
 # vim: ft=sh:
 

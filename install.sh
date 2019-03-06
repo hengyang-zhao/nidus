@@ -2,19 +2,29 @@
 
 set -euo pipefail
 
-BACKUP_DIR="$HOME/.nidus_backup"
-SITE_DIR="$HOME/.nidus_site_config"
+function home_dir {
+    echo "$HOME"
+}
+
+function backup_dir {
+    echo "$HOME/.nidus_backup"
+}
+
+function site_dir {
+    echo "$HOME/.nidus_site_config"
+}
 
 NIDUS_DIR="$(builtin cd "$(dirname $0)"; builtin pwd -P)"
 
 OVERWRITE_ALL=0
 NO_BACKUP=0
 FORCE_LEGACY=0
+PLAYGROUND=0
 
 function put {
 
     local severity="$1"
-    local text="$2"
+    local text="${2:-}"
     local indent=${indent:=""}
 
     case "$severity" in
@@ -50,13 +60,13 @@ function random_digits {
 function prepare_site_dir {
     local indent="  "
 
-    if ! mkdir -p "$SITE_DIR"; then
+    if ! mkdir -p "$(site_dir)"; then
         put fatal "Unable to setup nidus site directory."
         return 1
     fi
 
-    local proj_link="$SITE_DIR/nidus"
-    local site_link="${SITE_LINK:=$HOME/.n}"
+    local proj_link="$(site_dir)/nidus"
+    local site_link="${SITE_LINK:=$(home_dir)/.n}"
 
     if [ -e "$proj_link" ] && ! [ -L "$proj_link" ]; then
         put fatal "Unable to setup nidus symbolic link."
@@ -65,7 +75,7 @@ function prepare_site_dir {
     else
         rm -f "$proj_link"
 
-        if (builtin cd "$SITE_DIR" && ln -s "$NIDUS_DIR" "$(basename "$proj_link")"); then
+        if (builtin cd "$(site_dir)" && ln -s "$NIDUS_DIR" "$(basename "$proj_link")"); then
             put info "Linked $proj_link to $NIDUS_DIR."
         else
             put fatal "Unable to setup symbolic link to nidus project directory."
@@ -74,7 +84,7 @@ function prepare_site_dir {
     fi
 
     if [ -L "$site_link" ]; then
-        if [ "$(readlink "$site_link")" = "$SITE_DIR" ]; then
+        if [ "$(readlink "$site_link")" = "$(site_dir)" ]; then
             : # We're just good.
         else
             put fatal "Unable to setup site config symbolic link."
@@ -82,8 +92,8 @@ function prepare_site_dir {
             return 1
         fi
     elif ! [ -e "$site_link" ]; then
-        if (builtin cd "$HOME" && ln -s "$SITE_DIR" "$(basename "$site_link")"); then
-            put info "Linked $site_link to $SITE_DIR."
+        if (builtin cd "$(home_dir)" && ln -s "$(site_dir)" "$(basename "$site_link")"); then
+            put info "Linked $site_link to $(site_dir)."
         else
             put fatal "Unable to setup symbolic link to nidus site config directory."
             return 1
@@ -94,7 +104,7 @@ function prepare_site_dir {
         return 1
     fi
 
-    put info "Site directory $SITE_DIR is ready."
+    put info "Site directory $(site_dir) is ready."
 
     return 0
 }
@@ -102,7 +112,7 @@ function prepare_site_dir {
 function backup {
 
     local src="$1"
-    local dst="$BACKUP_DIR/$2__$(random_digits 8).backup"
+    local dst="$(backup_dir)/$2__$(random_digits 8).backup"
 
     if [ ! -L "$src" ] && [ ! -e "$src" ]; then
         return 0
@@ -219,6 +229,13 @@ function parse_args {
             --force-legacy)
                 FORCE_LEGACY=1
                 put warn "Will install disregard bash version."
+                ;;
+
+            --playground)
+                PLAYGROUND=1
+                HOME="/tmp/$USER/nidus_playground"
+                put warn "Will install to $(home_dir) for trial."
+                ;;
         esac
         shift
     done
@@ -251,13 +268,25 @@ function main {
         fi
     done
 
-    if [ "$has_error" == yes ]; then
+    if [ "$has_error" = yes ]; then
         put error "Error occured. Installation may be incomplete."
         return 1
     fi
 
-    put emph "Installation complete."
-    put emph "Nidus will take effect on your next login."
+    if [ "$PLAYGROUND" = 1 ]; then
+        put warn "Nidus is installed to $(home_dir) for trying."
+        put warn "To try nidus, use the following command:"
+        put warn
+        put warn "  env -i TERM=\$TERM HOME=$(home_dir) bash --login"
+        put warn
+        put warn "To remove this playground installation:"
+        put warn
+        put warn "  rm -rf $(home_dir) && rmdir /tmp/$USER || true"
+        put warn
+    else
+        put emph "Installation complete."
+        put emph "Nidus will take effect on your next login."
+    fi
 }
 
 main $*

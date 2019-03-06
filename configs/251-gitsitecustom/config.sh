@@ -1,7 +1,7 @@
 type="copy"
 source="gitcustomconfig"
 conflict="skip"
-install="$SITE_DIR/git/custom"
+install="$(site_dir)/git/custom"
 
 # vim: ft=sh:
 

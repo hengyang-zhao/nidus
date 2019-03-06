@@ -1,7 +1,7 @@
 type="copy"
 source="custom.conf"
 conflict="skip"
-install="$SITE_DIR/tmux/custom.conf"
+install="$(site_dir)/tmux/custom.conf"
 
 # vim: ft=sh:
 

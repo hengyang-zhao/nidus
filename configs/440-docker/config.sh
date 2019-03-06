@@ -1,7 +1,7 @@
 type="copy"
 source="config.json"
 conflict="skip"
-install="$HOME/.docker/config.json"
+install="$(home_dir)/.docker/config.json"
 
 # vim: ft=sh:
 

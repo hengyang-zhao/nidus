@@ -1,7 +1,7 @@
 type="dynamic"
 source="generate.sh"
 conflict="skip"
-install="$SITE_DIR/git/user"
+install="$(site_dir)/git/user"
 
 # vim: ft=sh:
 
