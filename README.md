@@ -1,4 +1,4 @@
-# nidus
+# N.I.D.U.S
 Nested Initialization Deployment for Unix Systems
 
 # Install
