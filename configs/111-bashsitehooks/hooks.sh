@@ -16,5 +16,6 @@ function nidus_hook_postcd {
 # DIMS FORWARD SLASHES. DISABLED BY DEFAULT.
 #function nidus_hook_ps1_cwd {
 #    local cwd="$1"
-#    __nidus_inline_echo "$cwd" | sed -e 's/\//'$'\033[2m''\/'$'\033[22m''/g'
+#    __nidus_inline_echo "$cwd" | \
+#        sed -e 's/\//'"\x1b[2;34m"'\/'"\x1b[22m""$(__nidus_fmt ps1_cwd)"'/g'
 #}
