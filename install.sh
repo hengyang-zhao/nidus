@@ -243,6 +243,10 @@ function parse_args {
 
 function main {
 
+    put emph
+    put emph "Welcome to N.I.D.U.S."
+    put emph
+
     parse_args $*
 
     if [ "${BASH_VERSINFO[0]}" -lt "$(<$NIDUS_DIR/install.d/minimum_bash_version/major)" ]; then
@@ -274,6 +278,7 @@ function main {
     fi
 
     if [ "$PLAYGROUND" = 1 ]; then
+        put warn
         put warn "Nidus is installed to $(home_dir) for trying."
         put warn "To try nidus, use the following command:"
         put warn
@@ -284,8 +289,10 @@ function main {
         put warn "  rm -rf $(home_dir) && rmdir /tmp/$USER || true"
         put warn
     else
+        put emph
         put emph "Installation complete."
         put emph "Nidus will take effect on your next login."
+        put emph
     fi
 }
 
