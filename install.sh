@@ -282,7 +282,7 @@ function main {
         put warn "Nidus is installed to $(home_dir) for trying."
         put warn "To try nidus, use the following command:"
         put warn
-        put warn "  env -i TERM=\$TERM HOME=$(home_dir) bash --login"
+        put warn "  env -i TERM=\$TERM HOME=$(home_dir) NIDUS_PS1_HOSTNAME=nidus-playground bash --login"
         put warn
         put warn "To remove this playground installation:"
         put warn
