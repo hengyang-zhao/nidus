@@ -1,5 +1,6 @@
 __nidus_infinite_bash()
 {
+    local label=${1:-}
     true
     while [ "$?" != 200 ]; do
         clear
@@ -11,7 +12,7 @@ __nidus_infinite_bash()
         echo "| ** To escape, use exit code 200.                           |"
         echo "+============================================================+"
         echo
-        bash
+        env NIDUS_PS1_LABEL="$label" bash
     done
     return 0
 }
