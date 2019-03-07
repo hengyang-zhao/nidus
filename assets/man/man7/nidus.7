@@ -112,7 +112,7 @@ attach to session 'main' in \fBtmux\fR; create if not exist
 .SH TOY COMMAND
 
 .TP
-.B bashtrap
+.B bashtrap [label]
 while true, do bash; no need to panic \-\-\- you have your way out
 
 .TP
@@ -219,6 +219,10 @@ override style of automatic physical cwd indicator in bash PS1 prompt
 .TP
 .B NIDUS_FMT_PS1_DOLLAR_HASH
 override style of the dollar/hash sign in bash PS1 prompt
+
+.TP
+.B NIDUS_FMT_PS1_LABEL
+override style of the label field in bash PS1 prompt
 
 .TP
 .B NIDUS_FMT_STATUS_OK
