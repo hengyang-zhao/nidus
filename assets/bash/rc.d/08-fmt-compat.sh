@@ -62,6 +62,9 @@ function __nidus_fmt {
             ps1_dollar_hash)
                 fmt_ctrl_seq+=${NIDUS_FMT_PS1_DOLLAR_HASH:-$'\033[1m'}
                 ;;
+            ps1_label)
+                fmt_ctrl_seq+=${NIDUS_FMT_PS1_LABEL:-$'\033[1;7m'}
+                ;;
             status_ok)
                 fmt_ctrl_seq+=${NIDUS_FMT_STATUS_OK:-$'\033[38;5;22m'}
                 ;;

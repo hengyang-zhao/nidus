@@ -176,6 +176,17 @@ function __nidus_ps1_physical_cwd {
     return 1
 }
 
+function __nidus_ps1_label {
+  local label=${NIDUS_PS1_LABEL:-}
+  if [ -n "$label" ]; then
+      __nidus_fmt ps1_label zero_width
+      __nidus_inline_echo " ${label} "
+      __nidus_reset_fmt zero_width
+      return 0
+  fi
+  return 1
+}
+
 function __nidus_ps1_dollar_hash {
     __nidus_fmt ps1_dollar_hash zero_width
     __nidus_inline_echo "$1"
@@ -191,16 +202,17 @@ function __nidus_ps1_newline {
 }
 
 PS1='$(
-__nidus_ps1_user_host         && __nidus_ps1_space
-__nidus_ps1_chroot            && __nidus_ps1_space
-__nidus_ps1_bg_indicator "\j" && __nidus_ps1_space
-__nidus_ps1_shlvl_indicator   && __nidus_ps1_space
-__nidus_ps1_screen_indicator  && __nidus_ps1_space
-__nidus_ps1_git_indicator     && __nidus_ps1_space
-__nidus_ps1_cwd "\w"          && __nidus_ps1_newline
-__nidus_ps1_physical_cwd      && __nidus_ps1_newline
-__nidus_ps1_dollar_hash "\$"  && __nidus_ps1_space
-__nidus_ps1_non_default_ifs   && __nidus_ps1_space
+    __nidus_ps1_user_host         && __nidus_ps1_space
+    __nidus_ps1_chroot            && __nidus_ps1_space
+    __nidus_ps1_bg_indicator "\j" && __nidus_ps1_space
+    __nidus_ps1_shlvl_indicator   && __nidus_ps1_space
+    __nidus_ps1_screen_indicator  && __nidus_ps1_space
+    __nidus_ps1_git_indicator     && __nidus_ps1_space
+    __nidus_ps1_cwd "\w"          && __nidus_ps1_newline
+    __nidus_ps1_physical_cwd      && __nidus_ps1_newline
+    __nidus_ps1_dollar_hash "\$"  && __nidus_ps1_space
+    __nidus_ps1_label             && __nidus_ps1_space
+    __nidus_ps1_non_default_ifs   && __nidus_ps1_space
 )'
 
 function __nidus_do_before_command {
