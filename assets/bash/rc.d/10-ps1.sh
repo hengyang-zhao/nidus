@@ -231,7 +231,7 @@ function __nidus_do_before_command {
     fi
 
     read -r -a cmd_tokens <<< "$BASH_COMMAND"
-    case $(type -t "${cmd_tokens[0]}") in
+    case "$(type -t "${cmd_tokens[0]}")" in
         file|alias)
             # even we got alias here, it has already been resolved
             cmd_tokens[0]=$(type -P "${cmd_tokens[0]}")
@@ -273,7 +273,7 @@ function __nidus_do_before_command {
     # dereference an undefined variable and use its fallback substution, which
     # is an empty string. Turning on this option (-u) is therefore going to be
     # break these scripts, which are in fact stable, fortunately.
-    if [ "${NIDUS_REPORT_UNBOUND_VARIABLE:-yes}" = yes ]; then
+    if [ "$__NIDUS_COMMAND_SNO" = 1 ] && [ "${NIDUS_REPORT_UNBOUND_VARIABLE:-yes}" = yes ]; then
         set -u
     fi
 }
