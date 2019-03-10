@@ -32,7 +32,7 @@ function __nidus_force_newline {
 }
 
 function __nidus_short_hostname {
-    if ! test -v NIDUS_PS1_HOSTNAME; then
+    if [ -z "${NIDUS_PS1_HOSTNAME:-}" ]; then
         local node_name="$(uname -n)"
         __nidus_inline_echo "${node_name%%.*}"
     else
@@ -85,7 +85,7 @@ function __nidus_ps1_non_default_ifs {
 }
 
 function __nidus_ps1_chroot {
-    if test -v debian_chroot; then
+    if [ -n "${debian_chroot:-}" ]; then
         __nidus_fmt ps1_chroot zero_width
         __nidus_inline_echo "($debian_chroot)"
         __nidus_reset_fmt zero_width
@@ -117,7 +117,7 @@ function __nidus_ps1_shlvl_indicator {
 }
 
 function __nidus_ps1_screen_indicator {
-    if test -v STY; then
+    if [ -n "${STY:-}" ]; then
         __nidus_fmt ps1_screen_indicator zero_width
         __nidus_inline_echo "*${STY#*.}*"
         __nidus_reset_fmt zero_width
