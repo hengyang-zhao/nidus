@@ -15,8 +15,6 @@ bind C-n select-pane -D
 bind C-b select-pane -L
 bind C-f select-pane -R
 
-set -g default-terminal 'tmux-256color'
-
 set -g display-panes-active-colour '#00ff00'
 set -g display-panes-colour '#ff8080'
 set -g display-panes-time 5000
