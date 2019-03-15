@@ -83,6 +83,15 @@ function __nidus_fmt {
             force_newline)
                 fmt_ctrl_seq+=${NIDUS_FMT_FORCE_NEWLINE:-$'\033[33;7;1m'}
                 ;;
+            pinned_key)
+                fmt_ctrl_seq+=${NIDUS_FMT_PINNED_KEY:-$'\033[33m'}
+                ;;
+            pinned_value)
+                fmt_ctrl_seq+=${NIDUS_FMT_PINNED_VALUE:-$'\033[35;2m'}
+                ;;
+            pinned_punct)
+                fmt_ctrl_seq+=${NIDUS_FMT_PINNED_PUNCT:-$'\033[90m'}
+                ;;
             zero_width)
                 zero_width_wrapper=yes
                 ;;

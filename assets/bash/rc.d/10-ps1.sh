@@ -201,6 +201,31 @@ function __nidus_ps1_newline {
     builtin echo
 }
 
+function __nidus_ps1_pinned_vars {
+    local var_name
+    local IFS=:
+    for var_name in $__NIDUS_PINNED_VARS; do
+        [ -z "$var_name" ] && continue
+        __nidus_fmt pinned_key
+        __nidus_inline_echo "$var_name"
+        __nidus_reset_fmt
+
+        __nidus_fmt pinned_punct
+        __nidus_inline_echo "='"
+        __nidus_reset_fmt
+
+        __nidus_fmt pinned_value
+        eval "__nidus_inline_echo \"\$${var_name}\""
+        __nidus_reset_fmt
+
+        __nidus_fmt pinned_punct
+        __nidus_inline_echo "'"
+        __nidus_reset_fmt
+
+        __nidus_ps1_newline
+    done
+}
+
 PS1='$(
     __nidus_ps1_user_host         && __nidus_ps1_space
     __nidus_ps1_chroot            && __nidus_ps1_space
@@ -209,6 +234,7 @@ PS1='$(
     __nidus_ps1_screen_indicator  && __nidus_ps1_space
     __nidus_ps1_git_indicator     && __nidus_ps1_space
     __nidus_ps1_cwd "\w"          && __nidus_ps1_newline
+    __nidus_ps1_pinned_vars
     __nidus_ps1_physical_cwd      && __nidus_ps1_newline
     __nidus_ps1_dollar_hash "\$"  && __nidus_ps1_space
     __nidus_ps1_label             && __nidus_ps1_space
