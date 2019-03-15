@@ -2,7 +2,7 @@ __NIDUS_PINNED_VARS=
 
 function nidus_define_pinned {
     local var_name="$1"
-    local var_value="$2"
+    local var_value="${2:-}"
     eval "$var_name='$var_value'"
 
     local IFS=:
