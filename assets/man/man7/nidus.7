@@ -181,12 +181,8 @@ override username style in bash PS1 prompt
 override user and host punct style in bash PS1 prompt
 
 .TP
-.B NIDUS_FMT_PS1_IFS
-override non-default IFS labelstyle in bash PS1 prompt
-
-.TP
-.B NIDUS_FMT_PS1_IFS_VALUE
-override non-default IFS valuestyle in bash PS1 prompt
+.B NIDUS_FMT_PS1_IFS NIDUS_FMT_PS1_IFS_VALUE
+override non-default IFS label and value in bash PS1 prompt
 
 .TP
 .B NIDUS_FMT_PS1_CHROOT NIDUS_FMT_PS1_CHROOT_ROOT
@@ -240,6 +236,10 @@ override style of the process status line
 .B NIDUS_FMT_CMD_EXPANSIONS
 override style of the command expansion lines
 
+.TP
+.B NIDUS_FMT_PINNED_KEY NIDUS_FMT_PINNED_VALUE NIDUS_FMT_PINNED_PUNCT
+override style of the pinned variables
+
 .SH HOOK
 .TP
 .B nidus_hook_ps1_cwd
@@ -271,4 +271,4 @@ bash(1), tmux(1), git(1), vim(1)
 
 .SH
 AUTHOR
-Hengyang Zhao <hzhao877502@gmail.com> at UC Riverside
+Hengyang Zhao <hzhao877502@gmail.com>
