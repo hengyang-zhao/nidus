@@ -19,3 +19,14 @@ function nidus_hook_postcd {
 #    __nidus_inline_echo "$cwd" | \
 #        sed -e 's/\//'"\x1b[2;34m"'\/'"\x1b[22m""$(__nidus_fmt ps1_cwd)"'/g'
 #}
+
+# AN EXAMPLE OF LABEL SPECIFIC PINNED VARIABLE DEFINITION.
+# IMAGINE THAT YOU NEED A BASH SESSION THAT USES PI A LOT.
+# UNCOMMENT THE FOLLOWING FUNCTION AND THEN COMMAND
+# $ bashtrap pi
+# WILL BRING YOU A SESSION WITH PINNED VARIABLE PI PRINTED ON THE TOP.
+#function nidus_hook_label_pi {
+#    nidus_define_pinned pi '3.14159265358979323846'
+#    nidus_define_pinned pinned_variables_are_just_normal_bash_variables
+#    nidus_define_pinned you_can_reassign_them_and_see_the_updated_values
+#}

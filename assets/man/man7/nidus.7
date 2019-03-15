@@ -258,6 +258,13 @@ do extra work after
 .B cd
 command; arguments are ignored
 
+.TP
+.B nidus_hook_label_<LABEL>
+extra initialization for labelled session <LABEL>; besides cutomized code,
+function
+.B nidus_define_pinned <VAR_NAME> <VAR_VALUE>
+can be used to define bash variables to be printed with the PS1
+
 .SH
 SEE ALSO
 bash(1), tmux(1), git(1), vim(1)
