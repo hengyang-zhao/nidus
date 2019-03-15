@@ -278,6 +278,7 @@ function __nidus_do_before_command {
     local sink=${NIDUS_CMD_EXPANSION_SINK:-&2}
     local proxy_fd=${NIDUS_CMD_EXPANSION_SINK_PROXY_FD:-99}
     local stat_str="[$__NIDUS_COMMAND_SNO] -> ${cmd_tokens[@]} ($(date +'%m/%d/%Y %H:%M:%S'))"
+    local safe_stat_str="$(tr [:cntrl:] . <<< "$stat_str")"
 
     if [ -w "$sink" ]; then
         eval "exec $proxy_fd>>$sink"
@@ -288,12 +289,11 @@ function __nidus_do_before_command {
     __nidus_force_newline
 
     [ -t "$proxy_fd" ] && eval "__nidus_fmt cmd_expansions >&$proxy_fd"
-    eval '__nidus_inline_echo "$stat_str" '"| tr '[:cntrl:]' '.' >&$proxy_fd"
+    eval '__nidus_inline_echo "$safe_stat_str" '" >&$proxy_fd"
     [ -t "$proxy_fd" ] && eval "__nidus_reset_fmt >&$proxy_fd"
     eval "__nidus_ps1_newline >&$proxy_fd"
 
     eval "exec $proxy_fd>&-"
-
 
     # Many bash command completion scripts use unbound variables, i.e.,
     # dereference an undefined variable and use its fallback substution, which
