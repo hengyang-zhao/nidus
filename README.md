@@ -1,5 +1,5 @@
-# N.I.D.U.S
-Nested Initialization Deployment for Unix Systems
+# `NIDUS`
+**N**eoteric and **I**nteroperable **D**efinitions for **U**nix (-like) **S**ystems
 
 # Install (Or Try) Nidus
 Run the following command and re-login:
