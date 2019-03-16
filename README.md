@@ -1,4 +1,4 @@
-# `NIDUS`
+# *N.I.D.U.S*
 **N**eoteric and **I**nteroperable **D**efinitions for **U**nix (-like) **S**ystems
 
 # Install (Or Try) Nidus
