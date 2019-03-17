@@ -2,7 +2,7 @@ __NIDUS_COMMAND_SNO=0
 __NIDUS_COMMAND_ERRNO=0
 
 function __nidus_inline_echo {
-    builtin echo -n "$*"
+    builtin echo -n "$@"
 }
 
 function  __nidus_cursor_xpos {
