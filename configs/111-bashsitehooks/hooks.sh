@@ -17,7 +17,7 @@ function nidus_hook_postcd {
 #function nidus_hook_ps1_cwd {
 #    local cwd="$1"
 #    __nidus_inline_echo "$cwd" | \
-#        sed -e 's/\//'"\x1b[2;34m"'\/'"\x1b[22m""$(__nidus_fmt ps1_cwd)"'/g'
+#        sed -e $'s/\\//\x1b[2;34m\\/\x1b[22m'"$(__nidus_fmt ps1_cwd)"'/g'
 #}
 
 # AN EXAMPLE OF LABEL SPECIFIC PINNED VARIABLE DEFINITION.
