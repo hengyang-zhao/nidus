@@ -17,6 +17,7 @@ __nidus_infinite_bash()
     return 0
 }
 alias bashtrap=__nidus_infinite_bash
+alias lab=__nidus_infinite_bash
 
 __nidus_has hub && alias git=hub
 
