@@ -278,7 +278,7 @@ function __nidus_do_before_command {
     local sink=${NIDUS_CMD_EXPANSION_SINK:-&2}
     local proxy_fd=${NIDUS_CMD_EXPANSION_SINK_PROXY_FD:-99}
     local stat_str="[$__NIDUS_COMMAND_SNO] -> ${cmd_tokens[@]} ($(date +'%m/%d/%Y %H:%M:%S'))"
-    local safe_stat_str="$(tr [:cntrl:] . <<< "$stat_str")"
+    local safe_stat_str="$(tr '[:cntrl:]' . <<< "$stat_str")"
 
     if [ -w "$sink" ]; then
         eval "exec $proxy_fd>>$sink"
