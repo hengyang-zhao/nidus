@@ -152,6 +152,35 @@ function __nidus_ps1_git_indicator {
     return 1
 }
 
+function __nidus_ps1_permission {
+
+    local r w x display=no
+    if test -r .; then
+        r="$(__nidus_fmt ps1_perm_good)r$(__nidus_reset_fmt)"
+    else
+        r="$(__nidus_fmt ps1_perm_bad)-$(__nidus_reset_fmt)"
+        display=yes
+    fi
+    if test -w .; then
+        w="$(__nidus_fmt ps1_perm_good)w$(__nidus_reset_fmt)"
+    else
+        w="$(__nidus_fmt ps1_perm_bad)-$(__nidus_reset_fmt)"
+        display=yes
+    fi
+    if test -x .; then
+        x="$(__nidus_fmt ps1_perm_good)x$(__nidus_reset_fmt)"
+    else
+        x="$(__nidus_fmt ps1_perm_bad)-$(__nidus_reset_fmt)"
+    fi
+
+    if [ "$display" = yes ]; then
+        __nidus_inline_echo "$r$w$x"
+        __nidus_reset_fmt zero_width
+        return 0
+    fi
+    return 1
+}
+
 function __nidus_ps1_cwd {
     local hook=nidus_hook_ps1_cwd
 
@@ -233,6 +262,7 @@ PS1='$(
     __nidus_ps1_shlvl_indicator   && __nidus_ps1_space
     __nidus_ps1_screen_indicator  && __nidus_ps1_space
     __nidus_ps1_git_indicator     && __nidus_ps1_space
+    __nidus_ps1_permission        && __nidus_ps1_space
     __nidus_ps1_cwd "\w"          && __nidus_ps1_newline
     __nidus_ps1_pinned_vars
     __nidus_ps1_physical_cwd      && __nidus_ps1_newline

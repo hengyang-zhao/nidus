@@ -53,6 +53,12 @@ function __nidus_fmt {
             ps1_git_indicator)
                 fmt_ctrl_seq+=${NIDUS_FMT_PS1_GIT_INDICATOR:-$'\033[33m'}
                 ;;
+            ps1_perm_good)
+                fmt_ctrl_seq+=${NIDUS_FMT_PS1_PERM_GOOD:-$'\033[32m'}
+                ;;
+            ps1_perm_bad)
+                fmt_ctrl_seq+=${NIDUS_FMT_PS1_PERM_BAD:-$'\033[1;31m'}
+                ;;
             ps1_cwd)
                 fmt_ctrl_seq+=${NIDUS_FMT_PS1_CWD:-$'\033[1;34m'}
                 ;;
