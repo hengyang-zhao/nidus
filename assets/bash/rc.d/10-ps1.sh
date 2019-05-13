@@ -1,6 +1,16 @@
 __NIDUS_COMMAND_SNO=0
 __NIDUS_COMMAND_ERRNO=0
 
+function __nidus_prefix_line_if_labeled {
+    local label=${NIDUS_PS1_LABEL:-}
+    local prefix="$1"
+    if [ -n "$label" ]; then
+      sed -e "s/^/$prefix/g"
+    else
+      cat
+    fi
+}
+
 function __nidus_inline_echo {
     builtin echo -n "$@"
 }
@@ -256,19 +266,26 @@ function __nidus_ps1_pinned_vars {
 }
 
 PS1='$(
-    __nidus_ps1_user_host         && __nidus_ps1_space
-    __nidus_ps1_chroot            && __nidus_ps1_space
-    __nidus_ps1_bg_indicator "\j" && __nidus_ps1_space
-    __nidus_ps1_shlvl_indicator   && __nidus_ps1_space
-    __nidus_ps1_screen_indicator  && __nidus_ps1_space
-    __nidus_ps1_git_indicator     && __nidus_ps1_space
-    __nidus_ps1_permission        && __nidus_ps1_space
-    __nidus_ps1_cwd "\w"          && __nidus_ps1_newline
-    __nidus_ps1_pinned_vars
-    __nidus_ps1_physical_cwd      && __nidus_ps1_newline
-    __nidus_ps1_dollar_hash "\$"  && __nidus_ps1_space
-    __nidus_ps1_label             && __nidus_ps1_space
-    __nidus_ps1_non_default_ifs   && __nidus_ps1_space
+    (
+        __nidus_ps1_label             && __nidus_ps1_space
+        __nidus_ps1_user_host         && __nidus_ps1_space
+        __nidus_ps1_chroot            && __nidus_ps1_space
+        __nidus_ps1_bg_indicator "\j" && __nidus_ps1_space
+        __nidus_ps1_shlvl_indicator   && __nidus_ps1_space
+        __nidus_ps1_screen_indicator  && __nidus_ps1_space
+        __nidus_ps1_git_indicator     && __nidus_ps1_space
+        __nidus_ps1_permission        && __nidus_ps1_space
+        __nidus_ps1_cwd "\w"
+        __nidus_ps1_newline
+    ) | __nidus_prefix_line_if_labeled '┌'
+    (
+        __nidus_ps1_pinned_vars
+        __nidus_ps1_physical_cwd && __nidus_ps1_newline
+    ) | __nidus_prefix_line_if_labeled '│'
+    (
+      __nidus_ps1_dollar_hash "\$" && __nidus_ps1_space
+      __nidus_ps1_non_default_ifs  && __nidus_ps1_space
+    ) | __nidus_prefix_line_if_labeled '└'
 )'
 
 function __nidus_do_before_command {
