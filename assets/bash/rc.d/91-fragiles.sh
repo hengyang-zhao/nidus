@@ -85,3 +85,19 @@ __nidus_verbose_cd() {
     return $errno
 }
 
+__nidus_color_table() {
+    local i r g b
+    for i in {0..23}; do
+        printf "[%4s=%s    %s]" "$i" "$(tput setab $(__nidus_gray $i))" "$(tput sgr0)"
+        ((i % 6 == 5)) && echo
+    done
+    for r in {0..5}; do
+        for g in {0..5}; do
+            for b in {0..5}; do
+                printf "[%4s=%s    %s]" "$r$g$b" "$(tput setab $(__nidus_rgb $r $g $b))" "$(tput sgr0)"
+            done
+            echo
+        done
+    done
+}
+

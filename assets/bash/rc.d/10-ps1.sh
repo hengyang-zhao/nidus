@@ -5,7 +5,7 @@ function __nidus_prefix_line_if_labeled {
     local label=${NIDUS_PS1_LABEL:-}
     local prefix="$1"
     if [ -n "$label" ]; then
-      sed -e "s/^/$prefix/g"
+      sed -e "s/^/$(__nidus_fmt ps1_label)$prefix$(__nidus_reset_fmt)/g"
     else
       cat
     fi
@@ -127,9 +127,10 @@ function __nidus_ps1_shlvl_indicator {
 }
 
 function __nidus_ps1_screen_indicator {
-    if [ -n "${STY:-}" ]; then
+    local session="${STY:-}"
+    if [ -n "${session:-}" ]; then
         __nidus_fmt ps1_screen_indicator zero_width
-        __nidus_inline_echo "*${STY#*.}*"
+        __nidus_inline_echo "*${session#*.}*"
         __nidus_reset_fmt zero_width
         return 0
     fi
@@ -219,7 +220,7 @@ function __nidus_ps1_label {
   local label=${NIDUS_PS1_LABEL:-}
   if [ -n "$label" ]; then
       __nidus_fmt ps1_label zero_width
-      __nidus_inline_echo " ${label} "
+      __nidus_inline_echo ":${label}:"
       __nidus_reset_fmt zero_width
       return 0
   fi
@@ -267,7 +268,6 @@ function __nidus_ps1_pinned_vars {
 
 PS1='$(
     (
-        __nidus_ps1_label             && __nidus_ps1_space
         __nidus_ps1_user_host         && __nidus_ps1_space
         __nidus_ps1_chroot            && __nidus_ps1_space
         __nidus_ps1_bg_indicator "\j" && __nidus_ps1_space
@@ -277,15 +277,22 @@ PS1='$(
         __nidus_ps1_permission        && __nidus_ps1_space
         __nidus_ps1_cwd "\w"
         __nidus_ps1_newline
-    ) | __nidus_prefix_line_if_labeled '┌'
+    ) | (
+        __nidus_prefix_line_if_labeled "$NIDUS_FMT_PS1_HEAD_PREFIX"
+    )
     (
         __nidus_ps1_pinned_vars
         __nidus_ps1_physical_cwd && __nidus_ps1_newline
-    ) | __nidus_prefix_line_if_labeled '│'
+    ) | (
+        __nidus_prefix_line_if_labeled "$NIDUS_FMT_PS1_MID_PREFIX"
+    )
     (
-      __nidus_ps1_dollar_hash "\$" && __nidus_ps1_space
-      __nidus_ps1_non_default_ifs  && __nidus_ps1_space
-    ) | __nidus_prefix_line_if_labeled '└'
+        __nidus_ps1_label            && __nidus_ps1_space
+        __nidus_ps1_dollar_hash "\$" && __nidus_ps1_space
+        __nidus_ps1_non_default_ifs  && __nidus_ps1_space
+    ) | (
+        __nidus_prefix_line_if_labeled "$NIDUS_FMT_PS1_TAIL_PREFIX"
+    )
 )'
 
 function __nidus_do_before_command {
@@ -325,7 +332,7 @@ function __nidus_do_before_command {
     local sink=${NIDUS_CMD_EXPANSION_SINK:-&2}
     local proxy_fd=${NIDUS_CMD_EXPANSION_SINK_PROXY_FD:-99}
     local stat_str="[$__NIDUS_COMMAND_SNO] -> ${cmd_tokens[@]} ($(date +'%m/%d/%Y %H:%M:%S'))"
-    local safe_stat_str="$(tr '[:cntrl:]' . <<< "$stat_str")"
+    local safe_stat_str="$(cat -v <<< "$stat_str")"
 
     if [ -w "$sink" ]; then
         eval "exec $proxy_fd>>$sink"
@@ -387,17 +394,19 @@ function __nidus_do_after_command {
         [ "${NIDUS_THICK_SEPARATOR:-no}" = yes ] || __nidus_fmt underline
         if [ $ret = OK ]; then
             __nidus_fmt status_ok
-            printf "%${COLUMNS}s\n" "$ts [ Status OK ]"
         else
             __nidus_fmt status_error
+        fi
+
+        if [ $ret = OK ]; then
+            printf "%${COLUMNS}s\n" "$ts [ Status OK ]"
+        else
             printf "%${COLUMNS}s\n" "$ts [ Exception code $__NIDUS_COMMAND_ERRNO ]"
         fi
-        __nidus_reset_fmt
 
         if [ "${NIDUS_THICK_SEPARATOR:-no}" = yes ]; then
-            __nidus_fmt horizontal_rule
             printf "%${COLUMNS}s\n" "" | tr " " "${NIDUS_THICK_SEPARATOR_CHAR:-~}"
-            __nidus_reset_fmt
         fi
+        __nidus_reset_fmt
     fi
 }

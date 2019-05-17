@@ -1,6 +1,6 @@
 __nidus_has screen && alias c=__connect_screen
 function __connect_screen {
-    if [ -n "$STY" ]; then
+    if [ -n "${STY:-}" ]; then
         echo '*** Nested screen is forbidden here ***'
         return
     fi
