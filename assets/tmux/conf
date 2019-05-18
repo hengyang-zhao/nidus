@@ -47,6 +47,7 @@ set -g allow-rename off
 set -g renumber-windows on
 setw -g aggressive-resize on
 
+set -g default-terminal "screen-256color"
 
 source ~/.nidus_site_config/tmux/custom.conf
 
