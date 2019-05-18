@@ -247,7 +247,7 @@ function main {
     put emph "Welcome to N.I.D.U.S."
     put emph
 
-    parse_args $*
+    parse_args "$@"
 
     if [ "${BASH_VERSINFO[0]}" -lt "$(<$NIDUS_DIR/install.d/minimum_bash_version/major)" ]; then
         if [ "${FORCE_LEGACY}" = 1 ]; then
@@ -296,5 +296,5 @@ function main {
     fi
 }
 
-main $*
+main "$@"
 

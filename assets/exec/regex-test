@@ -55,7 +55,7 @@ if [ $# = 0 ]; then
     done
     [ -t 0 ] && echo
 else
-    for text in $*; do
+    for text in "$@"; do
         process "$text" || ret=1
     done
 fi

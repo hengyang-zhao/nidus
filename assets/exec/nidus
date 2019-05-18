@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function put {
-    builtin echo "$*"
+    builtin echo "$@"
 }
 
 function echoed_do {
@@ -86,10 +86,10 @@ function main {
             do_info
             ;;
         reinstall)
-            do_reinstall $*
+            do_reinstall "$@"
             ;;
         banner)
-            do_banner $*
+            do_banner "$@"
             ;;
         clean)
             do_clean
@@ -104,4 +104,4 @@ function main {
     esac
 }
 
-main $*
+main "$@"
