@@ -21,7 +21,17 @@
 # THE PRINCIPLE IS, ONLY PUT CODE THAT IS INVULERABLE TO MULTIPLE EXECUTION AND
 # ONLY INTENDED FOR ENHANCING INTERACTIVE BASH OPERATIONS.
 
-function nidus_bash_site_rc_path {
-    echo "Your nidus site rc path is: $HOME/.nidus_site_config/bash/rc"
-}
+#function nidus_bash_site_rc_path {
+#    echo "Your nidus site rc path is: $HOME/.nidus_site_config/bash/rc"
+#}
+
+#NIDUS_ENABLE_EXPLICIT_EOF=no
+
+#NIDUS_ENABLE_STATUS_LINE=yes
+#NIDUS_THICK_SEPARATOR=no
+#NIDUS_THICK_SEPARATOR_CHAR='~'
+
+#NIDUS_ENABLE_CMD_EXPANSION=yes
+#NIDUS_PS1_HOSTNAME=
+#NIDUS_REPORT_UNBOUND_VARIABLE=yes
 

@@ -130,6 +130,14 @@ print the permission stack of current directory and all parent directories
 .SH FEATURE VARIABLE
 
 .TP
+.B NIDUS_ENABLE_STATUS_LINE
+enable status line after each command
+
+.TP
+.B NIDUS_THICK_SEPARATOR
+use thick separator (useful when a terminal does not support underline [tput smul])
+
+.TP
 .B NIDUS_THICK_SEPARATOR_CHAR
 override filler char in the thick separator
 
@@ -140,6 +148,10 @@ enable command expansion
 .TP
 .B NIDUS_ENABLE_STATUS_LINE
 enable process status line
+
+.TP
+.B NIDUS_ENABLE_EXPLICIT_EOF
+(experimental) explicitly mark eof if last command did not end with a new-line character
 
 .TP
 .B NIDUS_CMD_EXPANSION_SINK
