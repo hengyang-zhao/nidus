@@ -5,7 +5,7 @@ function __nidus_prefix_line_if_labeled {
     local label=${NIDUS_PS1_LABEL:-}
     local prefix="$1"
     if [ -n "$label" ]; then
-      sed -e "s/^/$(__nidus_fmt ps1_label)$prefix$(__nidus_reset_fmt)/g"
+      sed -e "s/^/$(__nidus_fmt ps1_label zero_width)$prefix$(__nidus_reset_fmt zero_width)/g"
     else
       cat
     fi
