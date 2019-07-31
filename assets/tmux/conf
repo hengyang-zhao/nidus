@@ -33,8 +33,8 @@ set -g status-fg '#ffffff'
 set -g status-bg '#404040'
 set -g status-left-length 36
 set -g status-right-length 36
-set -g status-left '#[bg=#208040] #(tmux-aux --tiny-host-name) #[bg=#4060e0] #S #{?session_many_attached,#[bg=#a020c0] #{client_tty} ,}'
-set -g status-right '#[fg=#ffffff,bg=#a020c0] #(tmux-aux --loadavg-1min)/#(tmux-aux --cpu-logical-cores) #[bg=#4060e0] %a %m/%d/%Y #[bg=#208040] %H#[blink]:#[noblink]%M '
+set -g status-left '#[bg=#208040] #(tmux-aux hostabbrev) #[bg=#4060e0] #S #{?session_many_attached,#[bg=#a020c0] #{client_tty} ,}'
+set -g status-right '#[fg=#ffffff,bg=#a020c0] #(tmux-aux load)/#(tmux-aux ncpu) #[bg=#4060e0] %a %m/%d/%Y #[bg=#208040] %H#[blink]:#[noblink]%M '
 set -g status-interval 5
 
 set -g window-status-current-format '#{?client_prefix,#[blink]#[bg=#a06000]#[fg=#ffffff],#[bg=#e0e0e0]#[fg=#000000]} #[underscore][#I:#{=8:window_name}]#F#[nounderscore] '
