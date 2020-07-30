@@ -18,4 +18,11 @@ set formatoptions+=mM
 
 set shell=/bin/sh
 
+set swapfile
+set directory=$HOME/.vim/tmp/swap
+
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
 " vim: set ft=vim:
