@@ -15,8 +15,8 @@ bind C-n select-pane -D
 bind C-b select-pane -L
 bind C-f select-pane -R
 
-set -g display-panes-active-colour '#00ff00'
-set -g display-panes-colour '#ff8080'
+set -g display-panes-active-colour '#40ff40'
+set -g display-panes-colour '#004000'
 set -g display-panes-time 5000
 
 set -g mouse on
@@ -25,12 +25,11 @@ set -g mode-keys vi
 set -g clock-mode-style 12
 set -g clock-mode-colour '#c0c0c0'
 
-set -g pane-border-fg '#808080'
-set -g pane-active-border-fg '#ffffff'
+set -g pane-border-style 'fg=#808080'
+set -g pane-active-border-style 'fg=#ffffff'
 
 set -g status-justify left
-set -g status-fg '#ffffff'
-set -g status-bg '#404040'
+set -g status-style 'fg=#ffffff,bg=#404040'
 set -g status-left-length 36
 set -g status-right-length 36
 set -g status-left '#[bg=#208040] #(tmux-aux hostabbrev) #[bg=#4060e0] #S #{?session_many_attached,#[bg=#a020c0] #{client_tty} ,}'
