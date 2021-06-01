@@ -33,7 +33,7 @@ case "$KEY" in
         ;;
 
     hostabbrev)
-        HOSTNAME=$(hostname -s)
+        HOSTNAME=${NIDUS_PS1_HOSTNAME:-$(hostname -s)}
         if [ "${#HOSTNAME}" -gt 12 ]; then
             case "$OS" in
                 Linux | Cygwin)
