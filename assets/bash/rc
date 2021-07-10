@@ -1,7 +1,3 @@
-if [ -f /etc/bashrc ]; then
-    source /etc/bashrc
-fi
-
 if [ "${BASH_VERSINFO[0]}" -lt "$(<$HOME/.nidus_site_config/nidus/install.d/minimum_bash_version/major)" ]; then
     cat $HOME/.nidus_site_config/nidus/assets/bash/banners/bash_not_supported.txt
     return 1
