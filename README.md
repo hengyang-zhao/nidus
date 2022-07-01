@@ -1,4 +1,7 @@
 # *N.I.D.U.S*
+
+Deprecated! Please checkout https://github.com/hengyang-zhao/n2.
+
 **N**eoteric and **I**nteroperable **D**efinitions for **U**nix (-like) **S**ystems
 
 # Install (Or Try) Nidus
